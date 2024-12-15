@@ -1,0 +1,14 @@
+{
+	"Lazy Plugin Specs": {
+		"prefix": ["lplu"],
+		"body": [
+			"---@type LazyPluginSpec",
+			"return {",
+			"\t\"${1:Address}\",",
+			"\topts = {${2}},",
+			"}"
+		],
+		"description": "The Neovim Plugin Spaces within lazy."
+	}
+}
+
