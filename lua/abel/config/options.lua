@@ -34,6 +34,9 @@ if vim.fn.exists '$SSH_TTY' == 1 and vim.env.TMUX == nil then
         },
     }
 elseif vim.fn.has 'wsl' == 1 then
+    ---@diagnostic disable-next-line: param-type-mismatch
+    local script_folder = vim.fs.joinpath(vim.fn.stdpath 'config', 'scripts')
+
     vim.g.clipboard = {
         name = 'WslClipboard',
         copy = {
@@ -41,10 +44,14 @@ elseif vim.fn.has 'wsl' == 1 then
             ['*'] = 'clip.exe',
         },
         paste = {
-            ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-            ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            -- -- ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            -- -- ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            -- ['+'] = 'win32yank.exe --1f',
+            -- ['*'] = 'win32yank.exe --1f',
+            ['+'] = vim.fs.joinpath(script_folder, 'wsl-paste.sh'),
+            ['*'] = vim.fs.joinpath(script_folder, 'wsl-paste.sh'),
         },
-        cache_enabled = 0,
+        cache_enabled = true,
     }
 end
 

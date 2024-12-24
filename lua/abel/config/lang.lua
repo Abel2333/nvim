@@ -4,7 +4,7 @@ local workspaceFolder = function()
     return vim.fn.getcwd()
 end
 
-local local_definition = require('abel.config.locals')
+local local_definition = require 'abel.config.locals'
 
 M.servers = {
     --  Add any additional override configuration in the following tables. Available keys are:
@@ -46,9 +46,10 @@ M.servers = {
     pyright = {
         root_dir = workspaceFolder,
     },
+    prettier = {},
     -- CSharp
     omnisharp = {
-        cmd={"dotnet", local_definition.omnisharp_dll_path },
+        cmd = { 'dotnet', local_definition.omnisharp_dll_path },
         handlers = {
             ['textDocument/definition'] = function(...)
                 return require('omnisharp_extended').handler(...)
