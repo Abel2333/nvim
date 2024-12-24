@@ -40,8 +40,11 @@ elseif vim.fn.has 'wsl' == 1 then
     vim.g.clipboard = {
         name = 'WslClipboard',
         copy = {
-            ['+'] = 'clip.exe',
-            ['*'] = 'clip.exe',
+            -- WARN: clip.exe might produce garbled text under certain conditions
+            -- ['+'] = 'clip.exe',
+            -- ['*'] = 'clip.exe',
+            ['+'] = 'win32yank.exe -i',
+            ['*'] = 'win32yank.exe -i',
         },
         paste = {
             -- -- ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
