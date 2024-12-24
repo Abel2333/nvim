@@ -46,7 +46,6 @@ M.servers = {
     pyright = {
         root_dir = workspaceFolder,
     },
-    prettier = {},
     -- CSharp
     omnisharp = {
         cmd = { 'dotnet', local_definition.omnisharp_dll_path },
