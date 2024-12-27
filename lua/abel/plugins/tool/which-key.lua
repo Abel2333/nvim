@@ -96,7 +96,6 @@ return {
             { '<leader>g', group = 'Git' },
             { '<leader>gd', group = 'Git Diff' },
             { '<leader>l', group = 'LSP' },
-            { '<leader>n', group = 'Neotree' },
             { '<leader>p', group = 'Program' },
             { '<leader>r', group = 'Run' },
             { '<leader>s', group = 'Search' },
