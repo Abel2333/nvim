@@ -6,6 +6,7 @@ local custom = require 'abel.config.custom'
 return {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
+    enabled = false,
     dependencies = {
         {
             'L3MON4D3/LuaSnip',

@@ -21,7 +21,8 @@ return {
 
         -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
         -- used for completion, annotations and signatures of Neovim apis
-        { 'folke/neodev.nvim', opts = {} },
+        -- No need for lazydev enabled
+        -- { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
         require('lspconfig.ui.windows').default_options.border = custom.border
