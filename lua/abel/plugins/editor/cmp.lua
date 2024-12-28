@@ -29,7 +29,6 @@ return {
         local lspkind = require 'lspkind'
 
         return {
-            ---@type cmp.ConfigSchema
             global = {
                 completion = {
                     completeopt = vim.o.completeopt,

@@ -1,4 +1,5 @@
 ---Autopairs
+--- NOTE: Been replaced by ultimate-autopair
 
 ---@type LazyPluginSpec
 return {
