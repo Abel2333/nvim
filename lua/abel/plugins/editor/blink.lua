@@ -62,6 +62,7 @@ return {
             },
         },
         completion = {
+            ghost_text = { enabled = true },
             list = {
                 selection = function(ctx)
                     return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
