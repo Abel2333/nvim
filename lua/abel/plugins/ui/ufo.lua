@@ -44,7 +44,7 @@ return {
         preview = {
             win_config = {
                 winhighlight = 'Normal:Folded',
-                winblend = 0,
+                winblend = vim.o.pumblend,
             },
         },
     },

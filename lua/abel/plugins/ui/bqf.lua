@@ -24,7 +24,7 @@ return {
         auto_resize_height = true,
         preview = {
             border = custom.border,
-            winblend = 0,
+            winblend = vim.o.pumblend,
         },
     },
 }

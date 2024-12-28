@@ -12,7 +12,7 @@ return {
             -- Options related to the notification window and buffer
             window = {
                 normal_hl = 'Comment', -- Base highlight group in the notification window
-                winblend = 0, -- Background color opacity in the notification window
+                winblend = vim.o.pumblend, -- Background color opacity in the notification window
                 border = custom.border, -- Border around the notification window
                 zindex = 45, -- Stacking priority of the notification window
                 max_width = 0, -- Maximum width of the notification window

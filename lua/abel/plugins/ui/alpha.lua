@@ -24,8 +24,8 @@ return {
             dashboard.section.buttons.val = {
                 dashboard.button('f', ' ' .. ' [F]ind File', "<Cmd> lua require('fzf-lua').files()<CR>"),
                 dashboard.button('r', ' ' .. ' [R]ecent Files', "<Cmd> lua require('fzf-lua').oldfiles()<CR>"),
-                dashboard.button('l', '󰒲 ' .. ' [L]azy', '<cmd> Lazy <cr>'),
-                dashboard.button('q', ' ' .. ' [Q]uit', '<cmd> qa <cr>'),
+                dashboard.button('l', '󰒲 ' .. ' [L]azy', '<Cmd> Lazy <CR>'),
+                dashboard.button('q', ' ' .. ' [Q]uit', '<Cmd> qa <CR>'),
             }
             for _, button in ipairs(dashboard.section.buttons.val) do
                 button.opts.hl = 'AlphaButtons'

@@ -80,7 +80,7 @@ return {
             },
             mini = {
                 win_options = {
-                    winblend = 0,
+                    winblend = vim.o.pumblend,
                 },
             },
         },
