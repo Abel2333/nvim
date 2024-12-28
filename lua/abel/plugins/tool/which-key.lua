@@ -32,6 +32,7 @@ return {
                 { pattern = 'launch', icon = ' ', color = 'green' },
                 { pattern = 'close', icon = ' ', color = 'red' },
                 { pattern = 'stop', icon = ' ', color = 'red' },
+                { pattern = 'sort', icon = '󰒺', color = 'azure' },
                 { pattern = 'reset', icon = ' ', color = 'grey' },
                 { pattern = 'restore', icon = ' ', color = 'grey' },
                 { pattern = 'reload', icon = ' ', color = 'grey' },
@@ -88,6 +89,7 @@ return {
         },
         spec = {
             { '<leader>b', group = 'Buffer' },
+            { '<leader>bs', group = 'Sort' },
             { '<leader>c', group = 'Code' },
             { '<leader>d', group = 'Debug' },
             { '<leader>f', group = 'Fuzzy Search' },
