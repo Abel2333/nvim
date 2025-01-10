@@ -6,7 +6,7 @@ local custom = require 'abel.config.custom'
 vim.diagnostic.config {
     virtual_text = {
         spacing = 4,
-        prefix = '',
+        prefix = '󱙝 ',
     },
     float = {
         severity_sort = true,
