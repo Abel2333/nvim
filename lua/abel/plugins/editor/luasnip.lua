@@ -32,6 +32,8 @@ return {
 
         return {
             store_selection_keys = '<Enter>',
+            history = true,
+            delete_check_events = 'TextChanged',
             update_events = { 'TextChanged', 'TextChangedI' },
             ext_opts = {
                 [types.choiceNode] = {
