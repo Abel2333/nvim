@@ -19,6 +19,24 @@ function M.has_software(software)
     return state_code == 1
 end
 
+---Log
+---@param massage string
+function M.log(massage)
+    local log_file = vim.fn.stdpath 'data' .. '/abel_log.log'
+
+    local file = io.open(log_file, 'a')
+
+    if file then
+        local time_stamp = os.date '%Y-%m-%d %H:%M:%S'
+
+        file:write(string.format('[%s] %s\n', time_stamp, massage))
+
+        file:close()
+    else
+        M.err('Could not create log file', { title = 'Abel Log' })
+    end
+end
+
 ---Send notify
 ---@param massage string
 ---@param opts table
@@ -101,6 +119,40 @@ end
 function M.set_breakindentopt(scope)
     local identvalue = vim.o.expandtab and vim.o.shiftwidth or vim.o.tabstop
     vim.api.nvim_set_option_value('breakindentopt', 'shift:' .. identvalue, { scope = scope })
+end
+
+---Do an async task
+---@param command string
+---@param owner string
+function M.async_task(command, owner)
+    M.info('Start command', { title = owner })
+
+    M.log 'Command start: '
+    M.log(command)
+    local handle = vim.fn.jobstart(command, {
+        -- Callback
+        on_stdout = function(_, data, _)
+            if data then
+                M.log(table.concat(data, '\n'))
+            end
+        end,
+        on_stderr = function(_, data, _)
+            if data then
+                local stderr_output = table.concat(data, '\n')
+                M.log(stderr_output)
+                if string.find(stderr_output, 'error') then
+                    M.err('Install websocat failed', { title = 'typst-preview' })
+                end
+            end
+        end,
+        on_exit = function(_, exit_code, _)
+            M.log('Install websocat end with ' .. exit_code)
+            M.info('Install websocat end with ' .. exit_code, { title = 'typst-preview' })
+        end,
+    })
+
+    -- Control the task by this handle
+    return handle
 end
 
 return M

@@ -79,6 +79,13 @@ M.servers = {
     --
     marksman = {},
     -- vale_ls = {},
+    tinymist = {
+        single_file_support = true,
+        settings = {
+            formatterMode = 'typstyle',
+            exportPdf = 'onSave',
+        },
+    },
 
     lua_ls = {
         -- cmd = {...},
