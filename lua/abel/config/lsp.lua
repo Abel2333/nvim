@@ -4,10 +4,11 @@ local custom = require 'abel.config.custom'
 
 -- Set diagnostic options
 vim.diagnostic.config {
-    virtual_text = {
-        spacing = 4,
-        prefix = '󱙝 ',
-    },
+    virtual_text = false,
+    -- virtual_text = {
+    --     spacing = 4,
+    --     prefix = '󱙝 ',
+    -- },
     float = {
         severity_sort = true,
         source = 'if_many',
