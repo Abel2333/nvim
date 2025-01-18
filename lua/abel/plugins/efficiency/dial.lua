@@ -61,4 +61,35 @@ return {
             mode = 'v',
         },
     },
+    config = function()
+        local augend = require 'dial.augend'
+        require('dial.config').augends:register_group {
+            default = {
+                augend.constant.new {
+                    elements = { 'and', 'or' },
+                    word = true,
+                    cyclic = true,
+                },
+                augend.constant.new {
+                    elements = { '&&', '||' },
+                    word = false,
+                    cyclic = true,
+                },
+                augend.constant.new {
+                    elements = { '==', '!=' },
+                    word = false,
+                    cyclic = true,
+                },
+
+                augend.integer.alias.decimal_int,
+                augend.integer.alias.hex,
+                augend.semver.alias.semver,
+                augend.constant.alias.bool,
+                augend.date.alias['%Y/%m/%d'],
+                augend.date.alias['%Y-%m-%d'],
+                augend.date.alias['%d/%m/%Y'],
+                augend.date.alias['%d-%m-%Y'],
+            },
+        }
+    end,
 }
