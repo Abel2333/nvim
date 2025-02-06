@@ -36,17 +36,6 @@ vim.fn.sign_define('DapBreakpointRejected', { text = '' })
 -- provide the inlay hints.:
 vim.lsp.inlay_hint.enable()
 
--- LSP provides Neovim with features like:
---  - Go to definition
---  - Find references
---  - Autocompletion
---  - Symbol Search
---  - and more!
-
---  This function gets run when an LSP attaches to a particular buffer.
---    That is to say, every time a new file is opened that is associated with
---    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
---    function will be executed to configure the current buffer
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
     callback = function(event)
@@ -89,12 +78,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         map('<leader>li', vim.lsp.buf.incoming_calls, 'Incoming calls')
         map('<leader>lo', vim.lsp.buf.outgoing_calls, 'Outgoing calls')
-
-        -- Opens a popup that displays documentation about the word under your cursor
-        --  See `:help K` for why this keymap.
-        --  NOTE: merged in plugin ufo
-        --
-        -- map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
         map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
 

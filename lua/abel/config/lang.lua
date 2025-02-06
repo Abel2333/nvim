@@ -5,6 +5,7 @@ local workspaceFolder = function()
 end
 
 local local_definition = require 'abel.config.locals'
+local capabilities = require 'abel.config.capabilities'
 
 M.servers = {
     --  Add any additional override configuration in the following tables. Available keys are:
@@ -39,12 +40,22 @@ M.servers = {
         capabilities = {
             offsetEncoding = 'utf-16',
         },
+        enabled = true,
     },
     -- CMake
-    neocmake = {},
+    neocmake = {
+        enabled = true,
+    },
     -- gopls = {},
     pyright = {
         root_dir = workspaceFolder,
+        enabled = true,
+    },
+    basedpyright = {
+        cmd = { 'basedpyright-langserver', '--stdio' },
+        filetypes = { 'python' },
+        root_dir = workspaceFolder,
+        enabled = false,
     },
     -- CSharp
     omnisharp = {
@@ -67,18 +78,10 @@ M.servers = {
         organize_imports_on_format = true,
         enable_import_completion = true,
     },
-    -- ruff = {},
+    ruff = {},
     rust_analyzer = {},
-    -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-    --
-    -- Some languages (like typescript) have entire language plugins that can be useful:
-    --    https://github.com/pmizio/typescript-tools.nvim
-    --
-    -- But for many setups, the LSP (`tsserver`) will work just fine
-    -- tsserver = {},
-    --
     marksman = {},
-    -- vale_ls = {},
+    vale_ls = {},
     tinymist = {
         single_file_support = true,
         settings = {
@@ -107,6 +110,7 @@ M.servers = {
                 },
             },
         },
+        enabled = true,
     },
 }
 

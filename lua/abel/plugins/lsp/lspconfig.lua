@@ -1,5 +1,6 @@
 local custom = require 'abel.config.custom'
 local lang = require 'abel.config.lang'
+local lsp_util = require 'abel.util.lsp'
 
 ---@type LazyPluginSpec
 return {
@@ -26,30 +27,10 @@ return {
     },
     config = function()
         require('lspconfig.ui.windows').default_options.border = custom.border
-        local capabilities = require 'abel.config.capabilities'
 
-        local servers = lang.servers
+        lsp_util.config_servers()
 
-        -- Ensure the servers and tools above are installed
         require('mason').setup()
-
-        -- You can add other tools here that you want Mason to install
-        -- for you, so that they are available from within Neovim.
-        local ensure_installed = vim.tbl_keys(servers or {})
-
-        require('mason-lspconfig').setup {
-            ensure_installed = ensure_installed,
-            handlers = {
-                function(server_name)
-                    local server = servers[server_name] or {}
-                    -- This handles overriding only values explicitly passed
-                    -- by the server configuration above. Useful when disabling
-                    -- certain features of an LSP (for example, turning off formatting for tsserver)
-                    server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                    require('lspconfig')[server_name].setup(server)
-                end,
-            },
-        }
     end,
     keys = {
         {

@@ -10,5 +10,6 @@ vim.env.LAZYROOT = vim.fs.joinpath(vim.fn.stdpath 'data', 'lazy')
 vim.cmd.aunmenu [[PopUp.How-to\ disable\ mouse]]
 vim.cmd.aunmenu [[PopUp.-1-]]
 
--- Check whether neovim in the TMUX environment
-vim.env.OPENAI_API_KEY = locals.openai_api_key
+if locals.switch_api('deepseek') ~= nil then
+    vim.env.ENABLE_AI = true
+end
