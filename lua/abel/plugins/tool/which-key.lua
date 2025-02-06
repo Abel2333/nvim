@@ -47,7 +47,10 @@ return {
                 { pattern = 'switch', icon = ' ', color = 'grey' },
                 { pattern = 'move', icon = ' ', color = 'grey' },
                 { pattern = 'rename', icon = '󰑕', color = 'cyan' },
+                { pattern = 'translate', icon = '󰗊', color = 'cyan' },
                 -- Nouns
+                { pattern = 'assistant', icon = '󰁤', color = 'orange' },
+                { pattern = 'chat', icon = '󰭻', color = 'orange' },
                 { pattern = 'fold', icon = ' ', color = 'azure' },
                 { pattern = 'color', icon = ' ', color = 'red' },
                 { pattern = 'highlight', icon = ' ', color = 'red' },
@@ -88,6 +91,7 @@ return {
             },
         },
         spec = {
+            { '<leader>a', group = 'Assistant' },
             { '<leader>b', group = 'Buffer' },
             { '<leader>bs', group = 'Sort' },
             { '<leader>c', group = 'Code' },

@@ -3,11 +3,39 @@ local custom = require 'abel.config.custom'
 ---@type LazyPluginSpec
 return {
     'Robitx/gp.nvim',
-    cond = vim.env.OPENAI_API_KEY ~= nil,
+    cond = vim.env.ENABLE_AI ~= nil,
+    enabled = false,
     opts = {
         toggle_target = 'split',
-        style_chat_finder_border = custom.border,
+        style_chat_finder_border = custom.broder,
         style_popup_border = custom.broder,
+        providers = {
+            deepseek = {
+                disable = false,
+                endpoint = 'https://api.deepseek.com/chat/completions',
+                secret = vim.env.DEEPSEEK_API_KEY,
+            },
+        },
+        curl_params = {
+            '-N',
+            '-X',
+            'POST',
+            '-H',
+            'Content-Type: application/json',
+            '-H',
+            '-d',
+            '--ssl-no-revoke',
+        },
+        agents = {
+            {
+                provider = 'deepseek',
+                name = 'DeepSeekChat',
+                chat = true,
+                command = true,
+                model = { model = 'deepseek-chat', temperature = 1.1, top_p = 1 },
+                system_prompt = 'You are a general AI assistant.',
+            },
+        },
     },
     cmd = {
         -- Chat
