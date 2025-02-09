@@ -7,6 +7,7 @@ local misc_uitl = require 'abel.util.misc'
 local number_group = vim.api.nvim_create_augroup('toggle-line-number', { clear = true })
 local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true })
 local check_group = vim.api.nvim_create_augroup('check status', { clear = true })
+local keymap_group = vim.api.nvim_create_augroup('toggle keymaps', { clear = true })
 
 local ignored_filetypes = { 'text', 'markdown', 'org', 'norg' }
 vim.api.nvim_create_autocmd({ 'OptionSet' }, {
@@ -73,6 +74,19 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.bo[bufnr].tabstop = 4
         vim.bo[bufnr].shiftwidth = 4
         vim.bo[bufnr].expandtab = false
+    end,
+})
+
+-- Easy to quit when in a float window
+vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
+    group = keymap_group,
+    callback = function()
+        local winid = vim.api.nvim_get_current_win()
+        local wininfo = vim.api.nvim_win_get_config(winid)
+
+        if wininfo.relative == 'editor' then
+            vim.keymap.set('n', 'q', '<Cmd>quit<CR>')
+        end
     end,
 })
 
