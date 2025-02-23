@@ -5,7 +5,8 @@ local misc_util = require 'abel.util.misc'
 return {
     '3rd/image.nvim',
     -- This plugin could not work under the Windows
-    enabled = not misc_util.is_win(),
+    -- enabled = not misc_util.is_win(),
+    enabled = false,
     dependencies = {
         'leafo/magick',
     },

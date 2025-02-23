@@ -7,11 +7,16 @@ return {
     { 'echasnovski/mini.starter', enabled = false },
     -- Dashboard. This runs when neovim starts, and is what displays
     -- the "LAZYVIM" banner.
+    ---@type LazyPluginSpec
+    ---@type LazyPluginSpec
     {
         'goolord/alpha-nvim',
         event = 'VimEnter',
         enabled = true,
         init = false,
+        dependencies = {
+            'folke/snacks.nvim'
+        },
         opts = function()
             local dashboard = require 'alpha.themes.dashboard'
             local header, colorized = render.ascii_render(figure.Neorange[1], figure.Neorange[2])
@@ -22,8 +27,8 @@ return {
                 position = 'center',
             }
             dashboard.section.buttons.val = {
-                dashboard.button('f', ' ' .. ' [F]ind File', "<Cmd> lua require('fzf-lua').files()<CR>"),
-                dashboard.button('r', ' ' .. ' [R]ecent Files', "<Cmd> lua require('fzf-lua').oldfiles()<CR>"),
+                dashboard.button('f', ' ' .. ' [F]ind File', "<Cmd> lua Snacks.picker.files() <CR>"),
+                dashboard.button('r', ' ' .. ' [R]ecent Files', "<Cmd> lua Snacks.picker.smart() <CR>"),
                 dashboard.button('l', '󰒲 ' .. ' [L]azy', '<Cmd> Lazy <CR>'),
                 dashboard.button('q', ' ' .. ' [Q]uit', '<Cmd> qa <CR>'),
             }

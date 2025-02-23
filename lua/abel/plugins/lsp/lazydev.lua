@@ -12,6 +12,10 @@ return {
                 path = 'lazy.nvim',
                 words = { 'Lazy.*Spec' },
             },
+            {
+                path = 'snacks.nvim',
+                words = { 'Snacks' },
+            },
         },
         enabled = function(root_dir)
             if vim.g.lazydev_enabled == false then

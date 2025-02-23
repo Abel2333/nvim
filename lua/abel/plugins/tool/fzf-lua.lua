@@ -6,6 +6,7 @@ local custom = require 'abel.config.custom'
 return {
     'ibhagwan/fzf-lua',
     cmd = { 'FzfLua' },
+    enabled = false,
     opts = {
         hls = {
             normal = 'NormalFloat',
