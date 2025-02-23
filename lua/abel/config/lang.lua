@@ -88,6 +88,7 @@ M.servers = {
             formatterMode = 'typstyle',
             exportPdf = 'onSave',
         },
+        enabled = true,
     },
 
     lua_ls = {
