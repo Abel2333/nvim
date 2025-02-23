@@ -6,7 +6,6 @@ local capabilities = require 'abel.config.capabilities'
 M.setup_server = function(server_name, server_opt)
     server_opt.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_opt.capabilities or {})
     require('lspconfig')[server_name].setup(server_opt)
-    print(server_name)
 end
 
 M.config_servers = function()
