@@ -3,9 +3,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 local custom = require 'abel.config.custom'
 
--- [[Setting options]]
-require 'abel.config.options'
-
 -- [[Setting misc items]]
 require 'abel.config.misc'
 
@@ -28,3 +25,6 @@ end
 
 -- Set colorscheme
 vim.cmd.colorscheme(custom.theme)
+
+-- [[Setting options]]
+require 'abel.config.options'

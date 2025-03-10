@@ -108,6 +108,8 @@ vim.opt.shiftwidth = 4
 vim.opt.autoindent = true
 vim.opt.expandtab = true
 
+vim.api.nvim_set_hl(0, 'TabLineFill', {})
+
 -- Completions
 vim.opt.completeopt = { 'menu', 'menuone', 'noinsert' }
 
