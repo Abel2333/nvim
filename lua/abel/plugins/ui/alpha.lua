@@ -28,7 +28,7 @@ return {
             }
             dashboard.section.buttons.val = {
                 dashboard.button('f', ' ' .. ' [F]ind File', "<Cmd> lua Snacks.picker.files() <CR>"),
-                dashboard.button('r', ' ' .. ' [R]ecent Files', "<Cmd> lua Snacks.picker.smart() <CR>"),
+                dashboard.button('r', ' ' .. ' [R]ecent Files', "<Cmd> lua Snacks.picker.recent() <CR>"),
                 dashboard.button('l', '󰒲 ' .. ' [L]azy', '<Cmd> Lazy <CR>'),
                 dashboard.button('q', ' ' .. ' [Q]uit', '<Cmd> qa <CR>'),
             }
