@@ -38,6 +38,7 @@ return {
             cs = { 'csharpier' },
             css = { 'prettier' },
             typst = { 'typstyle', lsp_format = 'prefer' },
+            latex = { 'tex-fmt' },
         },
         formatters = {
             csharpier = {

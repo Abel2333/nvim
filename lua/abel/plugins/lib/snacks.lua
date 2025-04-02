@@ -52,6 +52,13 @@ return {
             desc = 'Files',
         },
         {
+            '<leader>fr',
+            function()
+                Snacks.picker.recent()
+            end,
+            desc = 'Recent Files',
+        },
+        {
             '<leader>fb',
             function()
                 Snacks.picker.buffers()

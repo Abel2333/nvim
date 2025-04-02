@@ -25,5 +25,7 @@ return {
 
     { import = 'abel.plugins.lsp' },
 
+    { import = 'abel.plugins.filetype' },
+
     { import = 'abel.plugins.dap' },
 }

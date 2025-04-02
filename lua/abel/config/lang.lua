@@ -91,6 +91,13 @@ M.servers = {
         enabled = true,
     },
 
+    texlab = {
+        keys = {
+            { '<Leader>K', '<plug>(vimtex-doc-package)', desc = 'Vimtex Docs', silent = true },
+        },
+        enabled = true,
+    },
+
     lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
