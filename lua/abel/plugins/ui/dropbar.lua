@@ -3,6 +3,7 @@ local custom = require 'abel.config.custom'
 ---@type LazyPluginSpec
 return {
     'Bekaboo/dropbar.nvim',
+    enabled = false,
     event = {
         'BufRead',
         'BufNewFile',
