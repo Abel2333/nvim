@@ -78,6 +78,17 @@ M.servers = {
         organize_imports_on_format = true,
         enable_import_completion = true,
     },
+    jsonls = {
+        settings = {
+            json = {
+                format = {
+                    enabled = true,
+                },
+                validate = { enabled = true },
+            },
+        },
+        enabled = true,
+    },
     ruff = {},
     rust_analyzer = {},
     marksman = {},

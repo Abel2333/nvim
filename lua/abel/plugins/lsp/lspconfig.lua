@@ -1,5 +1,4 @@
 local custom = require 'abel.config.custom'
-local lang = require 'abel.config.lang'
 local lsp_util = require 'abel.util.lsp'
 
 ---@type LazyPluginSpec
@@ -16,6 +15,9 @@ return {
         'WhoIsSethDaniel/mason-tool-installer.nvim',
 
         'folke/neoconf.nvim',
+
+        -- Provides the SchemaStore catalog for use with jsonls
+        'b0o/schemastore.nvim',
 
         -- Useful status updates for LSP.
         { 'j-hui/fidget.nvim', opts = {} },
