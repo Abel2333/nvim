@@ -2,7 +2,7 @@
 -- See `:help vim.keymap.set()'
 
 local misc_util = require 'abel.util.misc'
-local Color = require("abel.util.color")
+local move_block = require 'abel.util.base.move_block'
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -51,13 +51,12 @@ vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Enter normal mode' })
 -- vim.keymap.set('v', 'K', ":move '<-2<CR>gv=gv", { desc = 'Move the selected text up' })
 -- But these two lines would not
 vim.keymap.set('v', 'J', function()
-    misc_util.move_block 'down'
+    move_block 'down'
 end, { desc = 'Move the selected text down' })
 vim.keymap.set('v', 'K', function()
-    misc_util.move_block 'up'
+    move_block 'up'
 end, { desc = 'Move the selected text up' })
 
-
 vim.keymap.set('n', '<leader>tc', function()
-    print(misc_util.has_plugin('kitty-scrollback'))
+    print(misc_util.has_plugin 'kitty-scrollback')
 end, { desc = 'Test Color' })
