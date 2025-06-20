@@ -53,7 +53,7 @@ return {
             function()
                 require('dap').continue()
             end,
-            desc = 'Debug: Continuew',
+            desc = 'Debug: Continue',
         },
         {
             '<S-F5>',
