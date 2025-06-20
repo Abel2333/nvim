@@ -1,3 +1,5 @@
+local dap_configs = require 'abel.config.dap'
+
 ---@type LazyPluginSpec
 return {
     'mfussenegger/nvim-dap',
@@ -9,6 +11,21 @@ return {
     },
     config = function()
         local dap = require 'dap'
+        local ui = require 'dapui'
+
+        dap.listeners.before.attach.dapui_config = function()
+            ui.open()
+        end
+        dap.listeners.before.launch.dapui_config = function()
+            ui.open()
+        end
+        dap.listeners.before.event_terminated.dapui_config = function()
+            ui.close()
+        end
+        dap.listeners.before.event_exited.dapui_config = function()
+            ui.close()
+        end
+
         dap.defaults.fallback.external_terminal = {
             command = '/usr/bin/kitty',
             args = {
@@ -22,42 +39,8 @@ return {
             },
         }
 
-        dap.adapters['nvim-lua'] = function(callback, config)
-            callback {
-                type = 'server',
-                ---@diagnostic disable-next-line: undefined-field
-                host = config.host or '127.0.0.1',
-                ---@diagnostic disable-next-line: undefined-field
-                port = config.port or 8086,
-            }
-        end
-
-        dap.configurations.lua = {
-            {
-                type = 'nvim-lua',
-                request = 'attach',
-                name = 'Attach to running Neovim instance',
-            },
-        }
-
-        dap.adapters.gdb = {
-            type = 'executable',
-            command = 'gdb',
-            args = { '-i', 'dap' },
-        }
-
-        dap.configurations.c = {
-            {
-                name = 'Launch',
-                type = 'gdb',
-                request = 'launch',
-                program = function()
-                    return vim.fn.input('Path to executable: ', vim.fs.joinpath(vim.fn.getcwd() .. 'file'))
-                end,
-                cwd = '${workspaceFolder}',
-                stopAtBeginningOfMainSubprogram = false,
-            },
-        }
+        dap.adapters = dap_configs.adapters()
+        dap.configurations = dap_configs.configurations
 
         ---@diagnostic disable-next-line: undefined-field
         require('overseer').enable_dap(true)
@@ -73,8 +56,8 @@ return {
             desc = 'Debug: Continuew',
         },
         {
-            -- '<S-F5>',
-            '<F17>', -- Shift + <F5>. 17 = 12 + 5
+            '<S-F5>',
+            -- '<F17>', -- Shift + <F5>. 17 = 12 + 5
             function()
                 require('dap').terminate()
             end,
@@ -95,7 +78,8 @@ return {
             desc = 'Debug: Step into',
         },
         {
-            '<F23>',
+            '<S-F11>',
+            -- '<F23>', -- Shift + <F11>.
             function()
                 require('dap').step_out()
             end,
