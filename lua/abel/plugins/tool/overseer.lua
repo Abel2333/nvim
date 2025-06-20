@@ -1,15 +1,17 @@
 ---A task runner and job management plugin for Neovim
 
 local custom = require 'abel.config.custom'
+local load = require 'abel.util.base.concat_fold'
 
 ---@type LazyPluginSpec
 return {
     'stevearc/overseer.nvim',
-    opt = function()
+    opts = function()
         return {
             strategy = {
                 'toggleterm',
                 quit_on_exit = 'success',
+                -- close_on_exit = 'success',
                 open_on_start = false,
             },
             dap = false,
@@ -28,9 +30,12 @@ return {
                     'on_output_summarize',
                     'on_exit_set_status',
                     'on_complete_notify',
-                    'on_complete_dispose',
+                    { 'on_complete_dispose', require_view = { 'SUCCESS', 'FAILURE' } },
                     'unique',
                 },
+            },
+            templates = {
+                'builtin',
             },
         }
     end,
@@ -39,6 +44,15 @@ return {
         local overseer = require 'overseer'
 
         overseer.setup(opts)
+
+        -- Load all templates
+        local templates = load.load_module 'abel.config.overseer'
+
+        -- Register them all
+        -- Thus, I can put multiple templates in single file
+        for _, template in ipairs(templates) do
+            overseer.register_template(template)
+        end
 
         do -- For lazy loading lualine component
             local success, lualine = pcall(require, 'lualine')
@@ -52,29 +66,6 @@ return {
                 end
             end
             lualine.setup(lualine_cfg)
-        end
-
-        local templates = {
-            {
-                name = 'C++ build single file',
-                builder = function()
-                    return {
-                        cmd = { 'g++' },
-                        args = {
-                            '-g',
-                            vim.fn.expand '%:p',
-                            '-o',
-                            vim.fn.expand '%:p:t:r',
-                        },
-                    }
-                end,
-                condition = {
-                    filetype = { 'cpp' },
-                },
-            },
-        }
-        for _, template in ipairs(templates) do
-            overseer.register_template(template)
         end
     end,
     keys = {

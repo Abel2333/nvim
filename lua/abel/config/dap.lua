@@ -45,20 +45,23 @@ M.configurations = {
             type = 'codelldb',
             request = 'launch',
             program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                -- Automatically point to the compilation output
+                return vim.fn.expand '%:p:r'
             end,
             cwd = '${workspaceFolder}',
             stopOnEntry = false,
+            preLaunchTask = 'Clang Build',
         },
         {
             name = 'Launch (CppTools) - GCC',
             type = 'cppdbg',
             request = 'launch',
             program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                return vim.fn.expand '%:p:r'
             end,
             cwd = '${workspaceFolder}',
             stopOnEntry = true,
+            preLaunchTask = 'GCC Build',
         },
         {
             name = 'Launch (gdb)',
