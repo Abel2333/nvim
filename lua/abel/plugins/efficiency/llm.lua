@@ -1,4 +1,5 @@
 local locals = require 'abel.config.locals'
+local misc_util = require 'abel.util.misc'
 
 ---@type LazyPluginSpec
 return {
@@ -10,15 +11,14 @@ return {
     cond = vim.env.ENABLE_AI ~= nil,
     cmd = { 'LLMSessionToggle', 'LLMSelectedTextHandler', 'LLMAppHandler' },
     opts = function()
-        local misc_uitl = require 'abel.util.misc'
-        local tools = require 'llm.common.tools'
+        local tools = require 'llm.tools'
 
         local win_args = [[
             return {url,
             "-N",
             "-X",
             "POST",
-            "-H", 
+            "-H",
             "Content-Type: application/json",
             "-H",
             authorization,
@@ -32,7 +32,7 @@ return {
             "-N",
             "-X",
             "POST",
-            "-H", 
+            "-H",
             "Content-Type: application/json",
             "-H",
             authorization,
@@ -48,7 +48,7 @@ return {
             url = 'https://api.deepseek.com/chat/completions',
             model = 'deepseek-chat',
             api_type = 'openai',
-            args = misc_uitl.is_win() and win_args or nix_arg,
+            args = misc_util.is_win() and win_args or nix_arg,
             max_tokens = 4096,
             temperature = 0.3,
             top_p = 0.7,
@@ -74,6 +74,15 @@ return {
                 hl = 'Title',
             },
 
+            display = {
+                diff = {
+                    layout = 'vertical',
+                    opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+                    provider = 'default',
+                    disable_diagnostic = true,
+                },
+            },
+
             app_handler = {
                 WordTranslate = {
                     handler = tools.flexi_handler,
@@ -93,7 +102,7 @@ return {
                         url = 'https://api.siliconflow.cn/v1/chat/completions',
                         model = 'Qwen/Qwen2.5-7B-Instruct',
                         api_type = 'zhipu',
-                        args = misc_uitl.is_win() and win_args or nix_arg,
+                        args = misc_util.is_win() and win_args or nix_arg,
                         exit_on_move = true,
                         enter_flexible_window = false,
                     },
@@ -108,8 +117,60 @@ return {
                         url = 'https://api.deepseek.com/chat/completions',
                         model = 'deepseek-reasoner',
                         api_type = 'zhipu',
-                        args = misc_uitl.is_win() and win_args or nix_arg,
+                        args = misc_util.is_win() and win_args or nix_arg,
                         enter_flexible_window = true,
+                    },
+                },
+                OptimCompare = {
+                    handler = tools.action_handler,
+                    opts = {
+                        fetch_key = function()
+                            return locals.switch_api 'deepseek'
+                        end,
+                        url = 'https://api.deepseek.com/chat/completions',
+                        model = 'deepseek-chat',
+                        api_type = 'zhipu',
+                        language = 'Chinese',
+                    },
+                },
+                AttachToChat = {
+                    handler = tools.attach_to_chat_handler,
+                    opts = {
+                        is_codeblock = true,
+                        inline_assistant = true,
+                        language = 'Chinese',
+                        -- display diff
+                        display = {
+                            mapping = {
+                                mode = 'n',
+                                keys = { 'd' },
+                            },
+                            action = nil,
+                        },
+                        -- accept diff
+                        accept = {
+                            mapping = {
+                                mode = 'n',
+                                keys = { 'Y', 'y' },
+                            },
+                            action = nil,
+                        },
+                        -- reject diff
+                        reject = {
+                            mapping = {
+                                mode = 'n',
+                                keys = { 'N', 'n' },
+                            },
+                            action = nil,
+                        },
+                        -- close diff
+                        close = {
+                            mapping = {
+                                mode = 'n',
+                                keys = { '<esc>' },
+                            },
+                            action = nil,
+                        },
                     },
                 },
             },
@@ -142,13 +203,19 @@ return {
         return options
     end,
     config = function(_, opts)
-        vim.fn.setenv('LLM_KEY', locals.switch_api 'deepseek')
+        local api_key = locals.switch_api 'deepseek'
+        if type(api_key) ~= 'string' then
+            return misc_util.err('LLM_KEY is nil or not a string', { title = 'llm.nvim' })
+        end
 
+        vim.env.LLM_KEY = api_key
         require('llm').setup(opts)
     end,
     keys = {
         { '<leader>ac', mode = 'n', '<Cmd>LLMSessionToggle<CR>', desc = 'Chat' },
         { '<leader>ae', mode = 'v', '<Cmd>LLMAppHandler CodeExplain<CR>', desc = 'Explain Code' },
-        { '<leader>at', mode = 'x', '<Cmd>LLMAppHandler WordTranslate<CR>', desc = 'Translate' },
+        { '<leader>at', mode = 'v', '<Cmd>LLMAppHandler WordTranslate<CR>', desc = 'Translate' },
+        { '<leader>aa', mode = 'v', '<Cmd>LLMAppHandler AttachToChat<CR>', desc = 'Attach To Chat' },
+        { '<leader>ao', mode = 'v', '<Cmd>LLMAppHandler OptimCompare<CR>', desc = 'Optim Code' },
     },
 }
