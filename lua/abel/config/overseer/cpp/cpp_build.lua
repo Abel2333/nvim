@@ -9,12 +9,29 @@ local build_single = function(compiler)
             cmd = { compiler },
             args = {
                 '-g',
+                '-std=c++17',
                 vim.fn.expand '%:p',
                 '-o',
                 vim.fn.expand '%:p:t:r' .. exe_suffix,
             },
             components = {
                 { 'on_output_quickfix', open_on_exit = 'failure' },
+                {
+                    'on_output_parse',
+                    problem_matcher = {
+                        {
+                            owner = 'cpp',
+                            pattern = {
+                                regexp = '^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$',
+                                file = 1,
+                                line = 2,
+                                column = 3,
+                                severity = 4,
+                                message = 5,
+                            },
+                        },
+                    },
+                },
                 'default',
             },
         }

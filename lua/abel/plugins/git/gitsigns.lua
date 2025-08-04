@@ -4,6 +4,7 @@
 return {
     'lewis6991/gitsigns.nvim',
     event = 'VeryLazy',
+    enabled = true,
     opts = {
         word_diff = true,
         attach_to_untracked = true,
@@ -68,4 +69,22 @@ return {
             map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = 'Toggle git show Deleted' })
         end,
     },
+    config = function(_, opts)
+        require('gitsigns').setup(opts)
+
+        local function set_hl()
+            vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { link = 'DiffText' })
+            vim.api.nvim_set_hl(0, 'GitSignsDeleteLn', { link = 'DiffDelete' })
+
+            vim.api.nvim_set_hl(0, 'GitSignsAddInline', { link = 'GitSignsAddLn' })
+            vim.api.nvim_set_hl(0, 'GitSignsDeleteInline', { link = 'GitSignsDeleteLn' })
+            vim.api.nvim_set_hl(0, 'GitSignsChangeInline', { link = 'GitSignsChangeLn' })
+        end
+        set_hl()
+
+        vim.api.nvim_create_autocmd('ColorScheme', {
+            desc = 'Set gitsigns highlights',
+            callback = set_hl,
+        })
+    end,
 }
