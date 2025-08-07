@@ -6,7 +6,10 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-        bigfile = { enabled = true },
+        bigfile = {
+            enabled = true,
+            size = 15 * 1024 * 1024, -- 15 MB
+        },
         quickfile = { enabled = true },
         input = { enabled = false },
         indent = {

@@ -1,11 +1,7 @@
 -- The tables of LSP servers and Linters
 local M = {}
-local workspaceFolder = function()
-    return vim.fn.getcwd()
-end
 
 local local_definition = require 'abel.config.locals'
-local capabilities = require 'abel.config.capabilities'
 
 M.servers = {
     --  Add any additional override configuration in the following tables. Available keys are:
@@ -47,15 +43,87 @@ M.servers = {
         enabled = true,
     },
     -- gopls = {},
+    ty = {
+        cmd = { 'ty', 'server' },
+        filetypes = { 'python' },
+        root_makers = {
+            'ty.toml',
+            'pyproject.toml',
+            '.git',
+        },
+        enabled = false,
+    },
     pyright = {
-        root_dir = workspaceFolder,
+        settings = {
+            python = {
+                analysis = {
+                    typeCheckingMode = 'off',
+                },
+            },
+        },
+        root_makers = {
+            'pyproject.toml',
+            'setup.py',
+            'setup.cfg',
+            'requirements.txt',
+            'Pipfile',
+            'pyrightconfig.json',
+            '.git',
+        },
+        filetypes = { 'python' },
         enabled = true,
     },
     basedpyright = {
-        cmd = { 'basedpyright-langserver', '--stdio' },
+        settings = {
+            basedpyright = {
+                analysis = { typeCheckingMode = 'off' },
+            },
+        },
+        root_makers = {
+            'pyproject.toml',
+            'setup.py',
+            'setup.cfg',
+            'requirements.txt',
+            'Pipfile',
+            'pyrightconfig.json',
+            '.git',
+        },
         filetypes = { 'python' },
-        root_dir = workspaceFolder,
+        cmd = { 'basedpyright-langserver', '--stdio' },
         enabled = false,
+    },
+    pylsp = {
+        cmd = { 'pylsp' },
+        filetypes = { 'python' },
+        root_makers = {
+            'pyproject.toml',
+            'setup.py',
+            'setup.cfg',
+            'requirements.txt',
+            'Pipfile',
+            'pyrightconfig.json',
+            '.git',
+        },
+        plugins = {
+            pycodestyle = {
+                enabled = false,
+            },
+            pyflakes = {
+                enabled = false,
+            },
+        },
+        enabled = false,
+    },
+    ruff = {
+        cmd = { 'ruff', 'server' },
+        root_makers = {
+            'pyproject.toml',
+            'ruff.toml',
+            'ruff.toml',
+            '.git',
+        },
+        filetypes = { 'python' },
+        enabled = true,
     },
     -- CSharp
     omnisharp = {
@@ -89,7 +157,6 @@ M.servers = {
         },
         enabled = true,
     },
-    ruff = {},
     rust_analyzer = {},
     marksman = {},
     vale_ls = {},
