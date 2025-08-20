@@ -8,7 +8,7 @@ return {
     opts = {
         bigfile = {
             enabled = true,
-            size = 15 * 1024 * 1024, -- 15 MB
+            size = 1.5 * 1024 * 1024, -- 15 MB
         },
         quickfile = { enabled = true },
         input = { enabled = false },
@@ -40,7 +40,7 @@ return {
                 trace = ' ',
             },
         },
-        explorer = {},
+        explorer = { enabled = false },
         image = { force = true },
     },
     ---@class Snacks: snacks.plugins
