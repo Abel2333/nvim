@@ -13,7 +13,6 @@ return {
         integrations = {
             aerial = true,
             bufferline = true,
-            cmp = true,
             diffview = true,
             fidget = true,
             -- fzf = true,
@@ -36,6 +35,10 @@ return {
             treesitter_context = true,
             octo = true,
             overseer = true,
+            snacks = {
+                enabled = true,
+                indent_scope_color = '',
+            },
             symbols_outline = true,
             illuminate = true,
             ufo = false,

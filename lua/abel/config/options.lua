@@ -120,3 +120,6 @@ vim.opt.fillchars = {
     foldclose = '',
     foldsep = '▕',
 }
+
+-- Float windows
+vim.o.winblend = 0

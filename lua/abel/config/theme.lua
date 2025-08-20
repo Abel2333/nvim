@@ -82,6 +82,11 @@ M.catppuccin_highlight = function(color)
         WindowPickerStatusLineNC = { fg = color.surface0, bg = color.red, style = { 'bold' } },
         WindowPickerWinBar = { fg = color.surface0, bg = color.red, style = { 'bold' } },
         WindowPickerWinBarNC = { fg = color.surface0, bg = color.red, style = { 'bold' } },
+
+        -- Normal float windows
+        FloatBorder = { fg = color.lavender, bg = 'NONE' },
+        NormalFloat = { fg = 'NONE', bg = 'NONE' },
+        FloatTitle = { fg = color.sky, bg = 'NONE' },
     }
 end
 
