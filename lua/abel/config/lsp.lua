@@ -4,14 +4,14 @@ local custom = require 'abel.config.custom'
 
 -- Set diagnostic options
 vim.diagnostic.config {
-    virtual_text = false,
-    -- virtual_text = {
-    --     spacing = 4,
-    --     prefix = '󱙝 ',
-    -- },
+    virtual_text = {
+        spacing = 4,
+        prefix = '●',
+    },
     float = {
         severity_sort = true,
         source = 'if_many',
+        border = 'rounded',
     },
     severity_sort = true,
     signs = {
@@ -122,3 +122,12 @@ vim.api.nvim_create_autocmd('LspDetach', {
         vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event.buf }
     end,
 })
+
+-- Enable the lsp servers
+vim.lsp.enable {
+    'lua_ls',
+    'clangd',
+    'neocmake',
+    'pyright',
+    'jsonls',
+}

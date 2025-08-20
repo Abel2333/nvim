@@ -2,6 +2,7 @@
 return {
     'rachartier/tiny-inline-diagnostic.nvim',
     event = 'VeryLazy',
+    enabled = false,
     priority = 1000,
     opts = {
         preset = 'ghost',
