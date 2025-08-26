@@ -23,4 +23,5 @@ return {
     capabilities = {
         offsetEncoding = 'utf-16',
     },
+    filetypes = { 'c', 'cpp' },
 }

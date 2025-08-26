@@ -130,4 +130,5 @@ vim.lsp.enable {
     'neocmake',
     'pyright',
     'jsonls',
+    'rust_analyzer',
 }

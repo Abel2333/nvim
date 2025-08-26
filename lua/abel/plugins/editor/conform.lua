@@ -29,6 +29,7 @@ return {
             cs = { 'csharpier' },
             typst = { 'typstyle', lsp_format = 'prefer' },
             latex = { 'tex-fmt' },
+            rust = { 'rustfmt' },
         },
         formatters = {
             csharpier = {
