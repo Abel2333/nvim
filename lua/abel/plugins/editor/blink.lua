@@ -1,6 +1,5 @@
 local custom = require 'abel.config.custom'
 
-
 ---@type LazyPluginSpec
 return {
     ---@module 'blink.cmp'
@@ -12,7 +11,9 @@ return {
     },
 
     -- NOTE: Request rust nightly
-    build = 'cargo build --release',
+    -- build = 'cargo build --release',
+    version = '1.*',
+
     ---@type blink.cmp.Config
     opts = {
         keymap = {
@@ -56,9 +57,6 @@ return {
                     preselect = function(ctx)
                         return ctx.mode ~= 'cmdline' and not require('blink.cmp').snippet_active { direction = 1 }
                     end,
-                    auto_insert = function(ctx)
-                        return ctx.mode ~= 'cmdline'
-                    end,
                 },
             },
             menu = {
@@ -88,6 +86,14 @@ return {
                     border = 'rounded',
                     winblend = vim.o.pumblend,
                 },
+            },
+        },
+        signature = {
+            enabled = true,
+            window = {
+                show_documentation = true,
+                border = 'rounded',
+                winblend = vim.o.pumblend,
             },
         },
         appearance = {
