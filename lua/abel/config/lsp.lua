@@ -116,6 +116,7 @@ vim.lsp.enable {
     'pyright',
     'jsonls',
     'ruff',
+    'qmlls',
     -- use rustaceanvim instead
     -- 'rust_analyzer',
 }
