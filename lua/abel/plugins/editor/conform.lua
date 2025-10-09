@@ -30,6 +30,7 @@ return {
             typst = { 'typstyle', lsp_format = 'prefer' },
             latex = { 'tex-fmt' },
             rust = { 'rustfmt' },
+            toml = { 'pyproject-fmt', 'tombi' },
         },
         formatters = {
             csharpier = {
