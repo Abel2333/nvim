@@ -3,6 +3,7 @@ return {
     'saghen/blink.pairs',
     version = '*', -- (recommended) only required with prebuilt binaries
     event = { 'BufReadPost', 'BufNewFile' },
+    enabled = false,
 
     build = 'cargo build --release',
     --- @module 'blink.pairs'

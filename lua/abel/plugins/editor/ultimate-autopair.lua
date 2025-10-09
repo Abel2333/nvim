@@ -2,7 +2,7 @@
 return {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter', 'CmdlineEnter' },
-    enabled = false,
+    enabled = true,
     opts = {
         tabout = {
             enable = true,
