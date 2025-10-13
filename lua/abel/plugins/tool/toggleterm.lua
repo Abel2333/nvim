@@ -1,6 +1,7 @@
 ---Persist and toggle multiple terminals during an editing session
 
 local custom = require 'abel.config.custom'
+local misc_util = require 'abel.util.misc'
 
 ---@type LazyPluginSpec
 return {
@@ -15,7 +16,7 @@ return {
             end
         end,
         open_mapping = [[<c-\>]],
-        shell = vim.uv.os_uname().sysname == 'Windows_NT' and 'pwsh' or 'zsh',
+        shell = misc_util.is_win() and 'pwsh' or 'zsh',
         float_opts = {
             border = custom.border,
         },
@@ -55,8 +56,8 @@ return {
             float_opts = float_opts,
             on_create = on_create,
         }
-        local lf = require('toggleterm.terminal').Terminal:new {
-            cmd = 'lf',
+        local file_manager = require('toggleterm.terminal').Terminal:new {
+            cmd = 'yazi',
             hidden = true,
             direction = 'float',
             float_opts = float_opts,
@@ -92,7 +93,7 @@ return {
             {
                 '<leader>pn',
                 function()
-                    lf:toggle()
+                    file_manager:toggle()
                 end,
                 desc = 'File Manager',
             },

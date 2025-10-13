@@ -110,13 +110,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- end
     end,
 })
-vim.lsp.enable {
-    'clangd',
-    'lua_ls',
-    'pyright',
-    'jsonls',
-    'ruff',
-    'qmlls',
-    -- use rustaceanvim instead
-    -- 'rust_analyzer',
-}
+-- vim.lsp.enable {
+--     'clangd',
+--     'lua_ls',
+--     'pyright',
+--     'jsonls',
+--     'ruff',
+--     'qmlls',
+--     -- use rustaceanvim instead
+--     -- 'rust_analyzer',
+-- }
