@@ -21,6 +21,8 @@ return {
 
     { import = 'abel.plugins.mini' },
 
+    {import = 'abel.plugins.snacks'},
+
     { import = 'abel.plugins.editor' },
 
     { import = 'abel.plugins.lsp' },

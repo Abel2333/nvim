@@ -2,7 +2,9 @@
 return {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = { 'markdown', 'Avante' },
-    opt = {
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
         callout = {
             abstract = { raw = '[!ABSTRACT]', rendered = '󰯂 Abstract', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
             summary = { raw = '[!SUMMARY]', rendered = '󰯂 Summary', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
@@ -21,71 +23,83 @@ return {
             wip = { raw = '[!WIP]', rendered = '󰦖 WIP', highlight = 'RenderMarkdownHint', category = 'obsidian' },
             done = { raw = '[!DONE]', rendered = ' Done', highlight = 'RenderMarkdownSuccess', category = 'obsidian' },
         },
-    },
-    sign = { enabled = false },
-    code = {
-        width = 'block',
-        min_width = 80,
-        border = 'thin',
-        left_pad = 1,
-        right_pad = 1,
-        position = 'right',
-        language_icon = true,
-        language_name = true,
-        highlight_inline = 'RenderMarkdownCodeInfo',
-    },
-    heading = {
-        icons = { ' 󰼏 ', ' 󰎨 ', ' 󰼑 ', ' 󰎲 ', ' 󰼓 ', ' 󰎴 ' },
-        border = true,
-        -- render_modes = true
-        render_modes = { 'n', 'c', 't' }, -- do not keep rendering during insertion.
-    },
-    checkbox = {
-        unchecked = {
-            icon = '󰄱 ',
-            highlight = 'RenderMarkdownCodeFallback',
-            scope_highlight = 'RenderMarkdownCodeFallback',
+        sign = { enabled = false },
+        code = {
+            -- general
+            width = 'block',
+            min_width = 80,
+            -- borders
+            border = 'thin',
+            left_pad = 1,
+            right_pad = 1,
+            -- language info
+            position = 'right',
+            language_icon = true,
+            language_name = true,
+            -- avoid making headings ugly
+            highlight_inline = 'RenderMarkdownCodeInfo',
         },
-        checked = {
-            icon = '󰄵 ',
-            highlight = 'RenderMarkdownUnchecked',
-            scope_highlight = 'RenderMarkdownUnchecked',
+        heading = {
+            icons = { ' 󰼏 ', ' 󰎨 ', ' 󰼑 ', ' 󰎲 ', ' 󰼓 ', ' 󰎴 ' },
+            border = true,
+            render_modes = true, -- keep rendering while inserting
         },
-        custom = {
-            question = { raw = '[?]', rendered = '', highlight = 'RenderMarkdownError', scope_highlight = 'RenderMarkdownError' },
-            todo = { raw = '[>]', rendered = '󰦖', highlight = 'RenderMarkdownInfo', scope_highlight = 'RenderMarkdownInfo' },
-            canceled = { raw = '[-]', rendered = '', highlight = 'RenderMarkdownCodeFallback', scope_highlight = '@text.strike' },
-            important = { raw = '[!]', rendered = '', highlight = 'RenderMarkdownWarn', scope_highlight = 'RenderMarkdownWarn' },
-            favorite = { raw = '[~]', rendered = '', highlight = 'RenderMarkdownMath', scope_highlight = 'RenderMarkdownMath' },
+        checkbox = {
+            unchecked = {
+                icon = '󰄱',
+                highlight = 'RenderMarkdownCodeFallback',
+                scope_highlight = 'RenderMarkdownCodeFallback',
+            },
+            checked = {
+                icon = '󰄵',
+                highlight = 'RenderMarkdownUnchecked',
+                scope_highlight = 'RenderMarkdownUnchecked',
+            },
+            custom = {
+                question = { raw = '[?]', rendered = '', highlight = 'RenderMarkdownError', scope_highlight = 'RenderMarkdownError' },
+                todo = { raw = '[>]', rendered = '󰦖', highlight = 'RenderMarkdownInfo', scope_highlight = 'RenderMarkdownInfo' },
+                canceled = { raw = '[-]', rendered = '', highlight = 'RenderMarkdownCodeFallback', scope_highlight = '@text.strike' },
+                important = { raw = '[!]', rendered = '', highlight = 'RenderMarkdownWarn', scope_highlight = 'RenderMarkdownWarn' },
+                favorite = { raw = '[~]', rendered = '', highlight = 'RenderMarkdownMath', scope_highlight = 'RenderMarkdownMath' },
+            },
         },
-    },
-    pipe_table = {
-        alignment_indicator = '─',
-        border = { '╭', '┬', '╮', '├', '┼', '┤', '╰', '┴', '╯', '│', '─' },
-    },
-    link = {
-        wiki = { icon = ' ', highlight = 'RenderMarkdownWikiLink', scope_highlight = 'RenderMarkdownWikiLink' },
-        image = ' ',
-        custom = {
-            github = { pattern = 'github', icon = ' ' },
-            gitlab = { pattern = 'gitlab', icon = '󰮠 ' },
-            youtube = { pattern = 'youtube', icon = ' ' },
-            cern = { pattern = 'cern.ch', icon = ' ' },
+        pipe_table = {
+            alignment_indicator = '─',
+            border = { '╭', '┬', '╮', '├', '┼', '┤', '╰', '┴', '╯', '│', '─' },
         },
-        hyperlink = ' ',
-    },
-    anti_conceal = {
-        disabled_modes = { 'n' },
-        ignore = {
-            bullet = true, -- render bullet in insert mode
-            head_border = true,
-            head_background = true,
+        link = {
+            wiki = { icon = ' ', highlight = 'RenderMarkdownWikiLink', scope_highlight = 'RenderMarkdownWikiLink' },
+            image = ' ',
+            custom = {
+                github = { pattern = 'github', icon = ' ' },
+                gitlab = { pattern = 'gitlab', icon = '󰮠 ' },
+                youtube = { pattern = 'youtube', icon = ' ' },
+                cern = { pattern = 'cern.ch', icon = ' ' },
+            },
+            hyperlink = ' ',
         },
-    },
-    -- https://github.com/MeanderingProgrammer/render-markdown.nvim/issues/509
-    win_options = { concealcursor = { rendered = 'nvc' } },
-    completions = {
-        blink = { enabled = true },
-        lsp = { enabled = true },
+        anti_conceal = {
+            disabled_modes = { 'n' },
+            ignore = {
+                bullet = true, -- render bullet in insert mode
+                head_border = true,
+                head_background = true,
+            },
+        },
+        -- https://github.com/MeanderingProgrammer/render-markdown.nvim/issues/509
+        win_options = { concealcursor = { rendered = 'nvc' } },
+        completions = {
+            blink = { enabled = true },
+            lsp = { enabled = true },
+        },
+        latex = {
+            enabled = false,
+            render_modes = { 'n', 'v', 'c' },
+            converter = { 'utftex', 'latex2text' },
+            highlight = 'RenderMarkdownMath',
+            position = 'above',
+            top_pad = 1,
+            bottom_pad = 0,
+        },
     },
 }
