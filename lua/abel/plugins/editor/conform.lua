@@ -24,6 +24,7 @@ return {
             javascript = { { 'prettierd', 'prettier' } },
             cpp = { 'clangd-format' },
             cmake = { 'cmake_format' },
+            markdown = { 'prettier' },
             json = { 'prettier' },
             css = { 'prettier' },
             cs = { 'csharpier' },

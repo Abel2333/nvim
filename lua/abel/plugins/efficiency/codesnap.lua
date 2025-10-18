@@ -5,16 +5,18 @@ local misc_util = require 'abel.util.misc'
 return {
     'mistricky/codesnap.nvim',
     enabled = not misc_util.is_win(),
-    build = 'make',
-    event = 'VeryLazy',
+    build = 'make build_generator',
+    -- event = 'VeryLazy',
     keys = {
-        { '<leader>cc', '<Cmd>CodeSnap<CR>', mode = 'x', desc = 'Copy selected code snapshot into clipboard' },
-        { '<leader>cs', '<Cmd>CodeSnapSave<CR>', mode = 'x', desc = 'Save selected code snapshot' },
+        { '<leader>cc', '<cmd>CodeSnap<cr>', mode = { 'x', 'v' }, desc = 'Save selected code snapshot into clipboard' },
+        { '<leader>cs', '<cmd>CodeSnapSave<cr>', mode = { 'x', 'v' }, desc = 'Save selected code snapshot in ~/Pictures/CodeSnap/' },
     },
     opts = {
         save_path = '~/Pictures/CodeSnap',
-        has_breadcrumbs = true,
-        has_line_number = true,
+        has_breadcrumbs = false,
+        -- has_line_number = true,
         bg_theme = 'summer',
+        show_workspace = true,
+        watermark = vim.env.USER,
     },
 }
