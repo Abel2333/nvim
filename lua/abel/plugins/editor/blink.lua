@@ -11,7 +11,7 @@ return {
     },
 
     -- NOTE: Request rust nightly
-    -- build = 'cargo build --release',
+    build = 'cargo build --release',
     version = '1.*',
 
     ---@type blink.cmp.Config
