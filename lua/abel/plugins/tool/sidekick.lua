@@ -3,6 +3,7 @@ local misc_util = require 'abel.util.misc'
 ---@type LazyPluginSpec
 return {
     'folke/sidekick.nvim',
+    event = 'BufEnter',
     opts = {
         cli = {
             mux = {
@@ -13,10 +14,10 @@ return {
     },
     keys = {
         {
-            '<c-y>',
+            '<c-J>',
             function()
                 if not require('sidekick').nes_jump_or_apply() then
-                    return '<c-y>'
+                    return '<c-J>'
                 end
             end,
             expr = true,
