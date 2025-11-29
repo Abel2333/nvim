@@ -51,7 +51,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         if vim.lsp.document_highlight then
             vim.keymap.set('n', '<leader>ld', function()
-                vim.lsp.document_highlight.enable(not vim.lsp.document_highlight.is_enabled { bufnr = 0 }, { bufnr = bufnr })
+                vim.lsp.document_highlight.enable(not vim.lsp.document_highlight.is_enabled { bufnr = 0 },
+                    { bufnr = bufnr })
             end, { buffer = bufnr, desc = 'Toggle document highlight' })
             vim.keymap.set('n', ']r', function()
                 vim.lsp.document_highlight.jump { count = vim.v.count1, refresh = true }
@@ -93,8 +94,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         --   vim.lsp.buf.format { async = true }
         -- end, { buffer = bufnr, desc = "Format document" })
 
-        vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, { buffer = bufnr, desc = 'Add workspace folder' })
-        vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, { buffer = bufnr, desc = 'Remove workspace folder' })
+        vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder,
+            { buffer = bufnr, desc = 'Add workspace folder' })
+        vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder,
+            { buffer = bufnr, desc = 'Remove workspace folder' })
         vim.keymap.set('n', '<leader>lwl', function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         end, { buffer = bufnr, desc = 'List workspace folders' })
@@ -110,13 +113,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- end
     end,
 })
--- vim.lsp.enable {
---     'clangd',
---     'lua_ls',
---     'pyright',
---     'jsonls',
---     'ruff',
---     'qmlls',
---     -- use rustaceanvim instead
---     -- 'rust_analyzer',
--- }
+
+vim.lsp.enable('copilot')

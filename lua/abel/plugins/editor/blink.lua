@@ -25,6 +25,18 @@ return {
             },
             ['<Tab>'] = {},
             ['<S-Tab>'] = {},
+            ['<C-y>'] = {
+                'select_and_accept',
+                function() -- sidekick next edit suggestion
+                    return require('sidekick').nes_jump_or_apply()
+                end,
+                -- NOTE: The following function is used for Neovim's native inline completions
+                -- and need version >= 0.12
+                -- function()
+                --     return vim.lsp.inline_completion.get()
+                -- end,
+                'fallback',
+            },
             ['<C-l>'] = { 'snippet_forward', 'fallback' },
             ['<C-h>'] = { 'snippet_backward', 'fallback' },
         },

@@ -27,6 +27,7 @@ return {
             markdown = { 'prettier' },
             json = { 'prettier' },
             css = { 'prettier' },
+            html = { 'prettier' },
             cs = { 'csharpier' },
             typst = { 'typstyle', lsp_format = 'prefer' },
             latex = { 'tex-fmt' },
