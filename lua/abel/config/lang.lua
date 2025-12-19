@@ -7,7 +7,7 @@ M.linters_by_ft = {
     -- Use clangd in LSP server will use clang-tidy
     -- cpp = { 'clangtidy' },
     cmake = { 'cmakelint' },
-    -- python = { 'ruff' },
+    python = { 'ruff' },
 }
 
 M.get_linters = function()

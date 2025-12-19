@@ -1,3 +1,5 @@
+local misc_utils = require('abel.util.misc')
+
 ---@type LazyPluginSpec
 return {
     'stevearc/conform.nvim',
@@ -16,9 +18,13 @@ return {
         notify_on_error = false,
         formatters_by_ft = {
             lua = { 'stylua' },
-            -- Conform can also run multiple formatters sequentially
-            python = { 'black' },
-            --
+            python = function()
+                if misc_utils.has_software('ruff') then
+                    return { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' }
+                else
+                    return { 'isort', 'black' }
+                end
+            end,
             -- You can use a sub-list to tell conform to run *until* a formatter
             -- is found.
             javascript = { { 'prettierd', 'prettier' } },
@@ -29,6 +35,7 @@ return {
             css = { 'prettier' },
             html = { 'prettier' },
             cs = { 'csharpier' },
+            -- Conform can also run multiple formatters sequentially
             typst = { 'typstyle', lsp_format = 'prefer' },
             latex = { 'tex-fmt' },
             rust = { 'rustfmt' },
