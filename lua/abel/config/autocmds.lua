@@ -3,6 +3,7 @@
 -- automatically after the event is triggered
 
 local misc_uitl = require 'abel.util.misc'
+local auto_pair = require 'abel.util.autopair'
 
 local number_group = vim.api.nvim_create_augroup('toggle-line-number', { clear = true })
 local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true })
@@ -103,3 +104,5 @@ vim.api.nvim_create_autocmd({
         end
     end,
 })
+
+auto_pair.apply()
