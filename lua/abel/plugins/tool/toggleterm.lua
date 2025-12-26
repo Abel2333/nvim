@@ -69,13 +69,13 @@ return {
             { '<leader>tt', '<Cmd>ToggleTermToggleAll<CR>', mode = 'n', desc = 'All Terminal' },
 
             -- External programs
-            {
-                '<leader>pl',
-                function()
-                    lazygit:toggle()
-                end,
-                desc = 'LazyGit',
-            },
+            -- {
+            --     '<leader>pl',
+            --     function()
+            --         lazygit:toggle()
+            --     end,
+            --     desc = 'LazyGit',
+            -- },
             {
                 '<leader>pd',
                 function()

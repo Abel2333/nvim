@@ -25,6 +25,13 @@ return {
                 },
             },
         },
+        ---@class snacks.lazygit.Config: snacks.terminal.Opts
+        lazygit = {
+            configure = true,
+            win = {
+                style = "lazygit"
+            }
+        },
         ---@class snacks.notifier.Config
         notifier = {
             timeout = 3000,
@@ -40,4 +47,14 @@ return {
         },
         explorer = { enabled = false },
     },
+    keys = {
+
+        {
+            '<leader>pl',
+            function()
+                Snacks.lazygit()
+            end,
+            desc = 'LazyGit',
+        },
+    }
 }
