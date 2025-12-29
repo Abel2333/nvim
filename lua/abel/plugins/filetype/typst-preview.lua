@@ -1,4 +1,5 @@
 local misc_util = require 'abel.util.misc'
+local async_task = require 'abel.util.base.task'
 
 ---@type LazyPluginSpec
 return {
@@ -10,6 +11,22 @@ return {
             ['tinymist'] = misc_util.is_win() and 'tinymist.CMD' or 'tinymist',
             ['websocat'] = 'websocat',
         },
+        -- This function will be called to determine the root of the typst project
+        get_root = function(path_of_main_file)
+            local root = os.getenv 'TYPST_ROOT'
+
+            if root then
+                return root
+            end
+
+            root = vim.fs.dirname(vim.fs.find({ 'lib.typ', '.git' }, { path = path_of_main_file, upward = true })[1])
+
+            if root then
+                return root
+            end
+
+            return vim.fn.fnamemodify(path_of_main_file, ':p:h')
+        end,
     },
     config = function(_, opts)
         require('typst-preview').setup(opts)
@@ -19,7 +36,7 @@ return {
             misc_util.info('Install websocat', { title = 'typst-preview' })
 
             -- Install websocat
-            misc_util.async_task(compile_command, 'typst-preview')
+            async_task(compile_command, 'typst-preview')
         end
     end,
 }
