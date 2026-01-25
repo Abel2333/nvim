@@ -2,8 +2,20 @@
 ---@type LazyPluginSpec
 return {
     'smjonas/inc-rename.nvim',
-    cmd = {
-        'IncRename',
+    dependencies = { 'folke/snacks.nvim' },
+    keys = {
+        {
+            '<leader>lr',
+            function()
+                return ':IncRename ' .. vim.fn.expand '<cword>'
+            end,
+            expr = true,
+            desc = 'Rename Symbol',
+        },
     },
-    opts = {},
+    config = function()
+        require('inc_rename').setup {
+            input_buffer_type = 'snacks',
+        }
+    end,
 }

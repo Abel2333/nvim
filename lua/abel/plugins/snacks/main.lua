@@ -11,7 +11,14 @@ return {
             size = 1.5 * 1024 * 1024, -- 15 MB
         },
         quickfile = { enabled = true },
-        input = { enabled = false },
+        input = {
+            icon = ' ',
+            icon_hl = 'SnacksInputIcon',
+            icon_pos = 'left',
+            prompt_pos = 'title',
+            win = { style = 'input' },
+            expand = true,
+        },
         indent = {
             enabled = true,
             priority = 1,
@@ -29,8 +36,8 @@ return {
         lazygit = {
             configure = true,
             win = {
-                style = "lazygit"
-            }
+                style = 'lazygit',
+            },
         },
         ---@class snacks.notifier.Config
         notifier = {
@@ -56,5 +63,5 @@ return {
             end,
             desc = 'LazyGit',
         },
-    }
+    },
 }

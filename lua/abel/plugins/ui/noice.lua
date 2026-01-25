@@ -3,6 +3,7 @@ local custom = require 'abel.config.custom'
 return {
     'folke/noice.nvim',
     event = 'VeryLazy',
+    enabled = false,
     init = function()
         vim.o.cmdheight = 0
 
@@ -25,6 +26,7 @@ return {
             long_message_to_split = true,
         },
         cmdline = {
+            enabled = false,
             format = {
                 search_down = {
                     view = 'cmdline',
