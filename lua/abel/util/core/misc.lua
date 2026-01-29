@@ -46,7 +46,7 @@ function M.firstToUpper(str)
 end
 
 -- FFI
-local ffi = require 'abel.util.ffidef'
+local ffi = require 'abel.util.core.ffidef'
 local error = ffi.new 'Error'
 
 ---@param winid number

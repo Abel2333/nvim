@@ -1,6 +1,6 @@
 local M = {}
 
-local misc_utils = require 'abel.util.misc'
+local misc_utils = require 'abel.util.core.misc'
 
 ---Load all template files from the specified module path and concatenate them into a large table.
 ---@param module_root string prefix of module (such as 'user.templates')

@@ -1,4 +1,4 @@
-local misc_utils = require 'abel.util.misc'
+local misc_utils = require 'abel.util.core.misc'
 
 ---@param compiler 'g++' | 'clang++'
 local build_single = function(compiler)

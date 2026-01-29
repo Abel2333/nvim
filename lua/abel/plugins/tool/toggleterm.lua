@@ -1,7 +1,7 @@
 ---Persist and toggle multiple terminals during an editing session
 
 local custom = require 'abel.config.custom'
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 
 ---@type LazyPluginSpec
 return {

@@ -1,4 +1,4 @@
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 
 ---Move selected block up or down
 ---@param direction "up"|"down"

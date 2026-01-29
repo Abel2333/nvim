@@ -1,4 +1,4 @@
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 local async_task = require 'abel.util.base.task'
 
 ---@type LazyPluginSpec

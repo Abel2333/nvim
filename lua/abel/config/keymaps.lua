@@ -1,7 +1,7 @@
 -- [[ Basic Keymaps ]]
 -- See `:help vim.keymap.set()'
 
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 local move_block = require 'abel.util.base.move_block'
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode

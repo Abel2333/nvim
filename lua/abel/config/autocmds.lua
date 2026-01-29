@@ -2,9 +2,9 @@
 -- autocmd is using to execute the specified function
 -- automatically after the event is triggered
 
-local misc_uitl = require 'abel.util.misc'
-local auto_pair = require 'abel.util.autopair'
-local lsp_progress = require 'abel.util.lsp-progress'
+local misc_uitl = require 'abel.util.core.misc'
+local auto_pair = require 'abel.util.editor.autopair'
+local lsp_progress = require 'abel.util.lsp.lsp-progress'
 
 local number_group = vim.api.nvim_create_augroup('toggle-line-number', { clear = true })
 local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true })

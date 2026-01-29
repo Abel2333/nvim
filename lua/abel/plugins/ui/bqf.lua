@@ -1,7 +1,7 @@
 ---Better quickfix window
 
 local custom = require 'abel.config.custom'
-local misc = require 'abel.util.misc'
+local misc = require 'abel.util.core.misc'
 
 ---@type LazyPluginSpec
 return {

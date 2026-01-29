@@ -1,4 +1,4 @@
-local Color = require 'abel.util.color'
+local Color = require 'abel.util.core.color'
 local M = {}
 
 M.Neorange = (function()

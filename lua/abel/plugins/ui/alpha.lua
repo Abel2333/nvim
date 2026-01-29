@@ -1,5 +1,5 @@
-local figure = require 'abel.util.figure'
-local render = require 'abel.util.render'
+local figure = require 'abel.util.core.figure'
+local render = require 'abel.util.core.render'
 
 return {
 

@@ -12,7 +12,7 @@ vim.g.neovide_input_ime = false
 -- INFO: The transparent will make some strange
 -- in lualine. Thus cancel transparent under linux
 -- using other mehtod instead.
-if require('abel.util.misc').is_win() then
+if require('abel.util.core.misc').is_win() then
     vim.g.neovide_transparency = 0.8
 end
 

@@ -3,6 +3,7 @@
 
 ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
 local progress = vim.defaulttable()
+local toast = require 'abel.util.ui.toast'
 
 -- Spinner glyphs used while progress is active
 local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
@@ -63,26 +64,22 @@ local function on_progress(ev)
         return table.insert(msg, v.msg) or not v.done
     end, p)
 
-    -- if #msg == 0 then
-    --     return
-    -- end
+    if #msg == 0 then
+        return
+    end
 
-    -- vim.notify(table.concat(msg, '\n'), 'info', {
-    --     id = 'lsp_progress',
-    --     title = client.name,
-    --     ---@param notif snacks.notifier.Notif.opts
-    --     opts = function(notif)
-    --         notif.icon = get_icon(client.id)
-    --     end,
-    -- })
-     Snacks.win {
-         show = false,
-         text = table.concat(msg, '\n'),
-         style = 'notification',
-         enter = false,
-         backdrop = false,
-	 noautocmd = true,
-    }
+    toast.notify_like(table.concat(msg, '\n'), {
+        id = 'lsp_progress',
+        title = client.name,
+        icon = get_icon(client.id),
+        relayout = true,
+        row = -1,
+        col = -1,
+        size = {
+            width = { min = 30, max = 0.75 },
+            height = { min = 1, max = 0.6 },
+        },
+    })
 end
 
 --------------------------------------------------------------------------------

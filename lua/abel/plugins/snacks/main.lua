@@ -51,6 +51,7 @@ return {
                 debug = ' ',
                 trace = ' ',
             },
+            -- top_down = false,
         },
         explorer = { enabled = false },
     },

@@ -1,4 +1,4 @@
-local misc_utils = require 'abel.util.misc'
+local misc_utils = require 'abel.util.core.misc'
 local log = require 'abel.util.base.log'
 
 ---Do an async task

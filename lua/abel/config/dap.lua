@@ -1,5 +1,5 @@
 local M = {}
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 
 M.adapters = function()
     local isDetached = misc_util.is_linux()

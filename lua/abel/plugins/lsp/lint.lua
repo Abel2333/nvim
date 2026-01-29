@@ -2,7 +2,7 @@
 -- Linter is a static check tool for language
 -- It can check the errors in your code
 
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 
 ---@type LazyPluginSpec
 return {

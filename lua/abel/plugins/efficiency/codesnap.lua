@@ -1,5 +1,5 @@
 ---Generate the image to show code block
-local misc_util = require 'abel.util.misc'
+local misc_util = require 'abel.util.core.misc'
 
 ---@type LazyPluginSpec
 return {

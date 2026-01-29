@@ -58,7 +58,7 @@ return {
                 },
             },
             lualine_x = {
-                require('abel.util.lualine').indent,
+                require('abel.util.ui.lualine').indent,
                 { -- a placeholder of overseer, to ensure overseer will be loaded after lualine
                     name = 'overseer-placeholder',
                     function()
