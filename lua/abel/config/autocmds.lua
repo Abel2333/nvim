@@ -4,6 +4,7 @@
 
 local misc_uitl = require 'abel.util.misc'
 local auto_pair = require 'abel.util.autopair'
+local lsp_progress = require 'abel.util.lsp-progress'
 
 local number_group = vim.api.nvim_create_augroup('toggle-line-number', { clear = true })
 local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true })
@@ -106,3 +107,4 @@ vim.api.nvim_create_autocmd({
 })
 
 auto_pair.apply()
+lsp_progress.apply()

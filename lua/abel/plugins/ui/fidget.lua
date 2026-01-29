@@ -6,6 +6,7 @@ local custom = require 'abel.config.custom'
 return {
     'j-hui/fidget.nvim',
     event = 'LspAttach',
+    enabled = false,
     opts = {
         -- Options related to notification subsystem
         notification = {

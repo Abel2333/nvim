@@ -3,7 +3,7 @@ local M = {}
 
 M.linters_by_ft = {
     -- Linters by filetypes
-    markdown = { 'markdownlint' },
+    -- markdown = { 'markdownlint' },
     -- Use clangd in LSP server will use clang-tidy
     -- cpp = { 'clangtidy' },
     cmake = { 'cmakelint' },

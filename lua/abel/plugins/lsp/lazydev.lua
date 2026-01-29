@@ -14,7 +14,7 @@ return {
             },
             {
                 path = 'snacks.nvim',
-                words = { 'Snacks' },
+                words = { 'Snacks', 'snacks' },
             },
         },
         enabled = function(root_dir)
