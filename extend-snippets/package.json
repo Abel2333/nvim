@@ -8,8 +8,11 @@
       {
         "language": "lua",
         "path": "./snippets/lua/lua.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./snippets/cpp/cpp.json"
       }
     ]
   }
 }
-

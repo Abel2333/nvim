@@ -1,0 +1,11 @@
+{
+    "Unsigned Int": {
+        "prefix": [
+            "ui"
+        ],
+        "body": [
+            "unsigned int ",
+        ],
+        "description": "Unsigned Integers."
+    }
+}
