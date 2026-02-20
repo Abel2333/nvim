@@ -50,6 +50,12 @@ M.configurations = {
             end,
             cwd = '${workspaceFolder}',
             stopOnEntry = false,
+            initCommands = {
+                'settings set target.x86-disassembly-flavor intel',
+                'settings set frame-format "frame #${frame.index}: ${function.name} at ${line.file.basename}:${line.number}\\n"',
+                -- 或者：禁用 disassembly
+                "settings set target.process.thread.step-avoid-regexp 'std::.*'",
+            },
             preLaunchTask = 'Clang Build',
         },
         {
@@ -61,6 +67,21 @@ M.configurations = {
             end,
             cwd = '${workspaceFolder}',
             stopOnEntry = true,
+            setupCommands = {
+                {
+                    description = 'Enable pretty printing',
+                    text = '-enable-pretty-printing',
+                    ignoreFailures = true,
+                },
+                {
+                    description = 'Simplify variable output',
+                    text = 'set print pretty on',
+                },
+                {
+                    description = 'Demangle C++ symbols',
+                    text = 'set print demangle on',
+                },
+            },
             preLaunchTask = 'GCC Build',
         },
         {
