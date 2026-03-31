@@ -1,6 +1,7 @@
 -- Set <space> as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
+vim.g.lazydev_enabled = true
 local custom = require 'abel.config.custom'
 
 -- [[Setting misc items]]
