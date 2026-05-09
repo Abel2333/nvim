@@ -11,7 +11,7 @@ local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true
 local check_group = vim.api.nvim_create_augroup('check status', { clear = true })
 local keymap_group = vim.api.nvim_create_augroup('toggle keymaps', { clear = true })
 
-local ignored_filetypes = { 'text', 'markdown', 'org', 'norg' }
+local ignored_filetypes = { 'text', 'markdown', 'org' }
 vim.api.nvim_create_autocmd({ 'OptionSet' }, {
     group = indent_group,
     pattern = { 'shiftwidth', 'tabstop' },

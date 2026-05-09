@@ -6,6 +6,12 @@ return {
     event = 'BufEnter',
     opts = {
         cli = {
+            win = {
+                layout = 'right',
+                split = {
+                    width = 0,
+                },
+            },
             mux = {
                 backend = 'tmux',
                 enabled = misc_util.is_linux(),

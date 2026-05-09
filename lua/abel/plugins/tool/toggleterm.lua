@@ -16,7 +16,7 @@ return {
             end
         end,
         open_mapping = [[<c-\>]],
-        shell = misc_util.is_win() and 'pwsh' or 'zsh',
+        shell = misc_util.is_win() and 'pwsh' or 'nu',
         float_opts = {
             border = custom.border,
         },

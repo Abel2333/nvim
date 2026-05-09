@@ -41,9 +41,6 @@ return {
                 folder_open = '',
                 folder_empty = '',
             },
-            file_icons = {
-                ['norg'] = '󱞁',
-            },
         },
         separator = { left = '▏', right = '▕' },
         window = {

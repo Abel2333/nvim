@@ -3,10 +3,10 @@
 ---@type LazyPluginSpec
 return {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',
     event = 'VeryLazy',
     dependencies = {
         { 'nvim-treesitter/nvim-treesitter' },
-        { 'ghostbuster91/nvim-next' },
     },
     opts = {
         select = {
@@ -66,18 +66,43 @@ return {
         },
     },
     config = function(_, opts)
-        require('nvim-next.integrations').treesitter_textobjects()
-        ---@diagnostic disable-next-line: missing-fields
-        require('nvim-treesitter.configs').setup {
-            textobjects = {
-                select = opts.select,
+        require('nvim-treesitter-textobjects').setup {
+            select = {
+                lookahead = opts.select.lookahead,
+                include_surrounding_whitespace = opts.select.include_surrounding_whitespace,
             },
-            nvim_next = {
-                enable = true,
-                textobjects = {
-                    move = opts.move,
-                },
+            move = {
+                set_jumps = opts.move.set_jumps,
             },
         }
+
+        local repeatable_move = require 'nvim-treesitter-textobjects.repeatable_move'
+        local select = require 'nvim-treesitter-textobjects.select'
+        local move = require 'nvim-treesitter-textobjects.move'
+
+        for lhs, spec in pairs(opts.select.keymaps) do
+            vim.keymap.set({ 'x', 'o' }, lhs, function()
+                select.select_textobject(spec.query, spec.query_group)
+            end, { desc = spec.desc })
+        end
+
+        local move_modes = { 'n', 'x', 'o' }
+        local move_groups = {
+            'goto_next_start',
+            'goto_next_end',
+            'goto_previous_start',
+            'goto_previous_end',
+        }
+
+        for _, group in ipairs(move_groups) do
+            for lhs, spec in pairs(opts.move[group]) do
+                vim.keymap.set(move_modes, lhs, function()
+                    move[group](spec.query, spec.query_group)
+                end, { desc = spec.desc })
+            end
+        end
+
+        vim.keymap.set({ 'n', 'x', 'o' }, ';', repeatable_move.repeat_last_move_next)
+        vim.keymap.set({ 'n', 'x', 'o' }, ',', repeatable_move.repeat_last_move_previous)
     end,
 }
