@@ -9,14 +9,6 @@ return {
             bt_ignore = { 'nofile', 'terminal' },
             ft_ignore = { 'NeogitStatus' },
             segments = {
-                -- Simulate the sign column while not showing the gitsigns
-                {
-                    sign = {
-                        name = { '.*' },
-                        text = { '.*' },
-                    },
-                    click = 'v:lua.ScSa',
-                },
                 -- Simulate the line number column without the right padding
                 {
                     text = { builtin.lnumfunc },

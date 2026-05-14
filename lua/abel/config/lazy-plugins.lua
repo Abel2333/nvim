@@ -34,7 +34,7 @@ require('lazy').setup('abel.plugins', {
         cmd = 'diffview.nvim',
     },
     rocks = {
-        enables = true,
+        enabled = true,
         root = vim.env.LAZYROCK,
         server = 'https://nvim-neorocks.github.io/rocks-binaries/',
         hererocks = true,
