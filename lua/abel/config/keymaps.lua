@@ -57,6 +57,10 @@ vim.keymap.set('v', 'K', function()
     move_block 'up'
 end, { desc = 'Move the selected text up' })
 
+local test_bus = require 'abel.util.tool.bus'
+local test_uuid = require('abel.util.core.uuid')
+
 vim.keymap.set('n', '<leader>tc', function()
-    print(misc_util.has_plugin 'kitty-scrollback')
+    -- print(test_bus.get_id())
+    print(test_uuid.uuidv7())
 end, { desc = 'Test Color' })
