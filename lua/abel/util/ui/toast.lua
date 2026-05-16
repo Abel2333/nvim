@@ -382,10 +382,34 @@ local function notify_like(msg, opts, render)
     return win
 end
 
+---@param id string
+local function dismiss(id)
+    local state = ACTIVE[id]
+    if not state then
+        return
+    end
+
+    if state.timer then
+        pcall(state.timer.stop, state.timer)
+        pcall(state.timer.close, state.timer)
+        state.timer = nil
+    end
+
+    if state.win and state.win.valid and state.win:valid() then
+        pcall(function()
+            state.win:close()
+        end)
+    end
+
+    ACTIVE[id] = nil
+end
+
 ---@class AbelNotifyModule
 ---@field notify_like fun(msg: string, opts: AbelNotifyOpts|nil, render: AbelNotifyRender|nil): table
+---@field dismiss fun(id: string)
 
 ---@type AbelNotifyModule
 return {
     notify_like = notify_like,
+    dismiss = dismiss,
 }

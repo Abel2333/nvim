@@ -58,9 +58,16 @@ vim.keymap.set('v', 'K', function()
 end, { desc = 'Move the selected text up' })
 
 local test_bus = require 'abel.util.tool.bus'
-local test_uuid = require('abel.util.core.uuid')
 
-vim.keymap.set('n', '<leader>tc', function()
-    -- print(test_bus.get_id())
-    print(test_uuid.uuidv7())
-end, { desc = 'Test Color' })
+vim.keymap.set('n', '<leader>c', function()
+    test_bus.emit {
+        tag = 'notify',
+        level = vim.log.levels.DEBUG,
+        source = 'user',
+        text = 'Debug message from <leader>c',
+        content = 'Debug message from <leader>c',
+        meta = {
+            title = 'Bus Debug',
+        },
+    }
+end, { desc = 'Test Bus Message' })
