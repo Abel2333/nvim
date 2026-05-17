@@ -564,9 +564,9 @@ local function ensure_resize_hook()
     end
     vim.api.nvim_create_autocmd('VimResized', {
         group = RESIZE_GROUP,
-        callback = function()
+        callback = vim.schedule_wrap(function()
             relayout_all()
-        end,
+        end),
     })
     RESIZE_HOOKED = true
 end

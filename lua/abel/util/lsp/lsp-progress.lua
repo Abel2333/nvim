@@ -7,6 +7,8 @@ local toast = require 'abel.util.ui.toast'
 
 -- Spinner glyphs used while progress is active
 local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+local REFRESH_DELAY_MS = 50
+local refresh_timers = {}
 
 --------------------------------------------------------------------------------
 -- Utility Functions
@@ -34,6 +36,68 @@ local function get_icon(client_id)
     return spinner[idx]
 end
 
+---@param timer uv.uv_timer_t|nil
+local function stop_timer(timer)
+    if not timer then
+        return
+    end
+    pcall(timer.stop, timer)
+    pcall(timer.close, timer)
+end
+
+---@param client_id number
+local function render_progress(client_id)
+    local client = vim.lsp.get_client_by_id(client_id)
+    local p = progress[client_id]
+    if not client or not p then
+        return
+    end
+
+    local msg = {} ---@type string[]
+    for _, v in ipairs(p) do
+        if not v.done then
+            msg[#msg + 1] = v.msg
+        end
+    end
+
+    if #msg == 0 then
+        toast.dismiss('lsp_progress:' .. client.id)
+        return
+    end
+
+    toast.show(table.concat(msg, '\n'), {
+        id = 'lsp_progress:' .. client.id,
+        title = client.name,
+        icon = get_icon(client.id),
+        channel = 'progress',
+        relayout = true,
+        size = {
+            width = { min = 30, max = 0.75 },
+            height = { min = 1, max = 0.6 },
+        },
+    })
+end
+
+---@param client_id number
+local function schedule_refresh(client_id)
+    local timer = refresh_timers[client_id]
+    if not timer then
+        timer = assert(vim.uv.new_timer())
+        refresh_timers[client_id] = timer
+    else
+        pcall(timer.stop, timer)
+    end
+
+    timer:start(REFRESH_DELAY_MS, 0, vim.schedule_wrap(function()
+        if timer:is_closing() then
+            return
+        end
+        refresh_timers[client_id] = nil
+        stop_timer(timer)
+        render_progress(client_id)
+    end))
+end
+
 --------------------------------------------------------------------------------
 -- Handler
 --------------------------------------------------------------------------------
@@ -59,26 +123,15 @@ local function on_progress(ev)
         end
     end
 
-    local msg = {} ---@type string[]
-    progress[client.id] = vim.tbl_filter(function(v)
-        return table.insert(msg, v.msg) or not v.done
-    end, p)
-
-    if #msg == 0 then
-        return
+    local active = {} ---@type {token:lsp.ProgressToken, msg:string, done:boolean}[]
+    for _, v in ipairs(p) do
+        if not v.done then
+            active[#active + 1] = v
+        end
     end
+    progress[client.id] = active
 
-    toast.show(table.concat(msg, '\n'), {
-        id = 'lsp_progress',
-        title = client.name,
-        icon = get_icon(client.id),
-        channel = 'progress',
-        relayout = true,
-        size = {
-            width = { min = 30, max = 0.75 },
-            height = { min = 1, max = 0.6 },
-        },
-    })
+    schedule_refresh(client.id)
 end
 
 --------------------------------------------------------------------------------
