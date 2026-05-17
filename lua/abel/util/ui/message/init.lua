@@ -6,6 +6,7 @@ local M = {}
 
 ---@class MessageBootstrapOpt
 ---@field bus? BusInitOpt
+---@field history? MessageHistoryOpt
 ---@field nvim? MessageNvimOpt
 ---@field notify? MessageNotifyOpt
 
@@ -16,6 +17,7 @@ local M = {}
 
 ---@class MessageSetupOpt
 ---@field bus? BusInitOpt
+---@field history? MessageHistoryOpt
 ---@field nvim? MessageNvimOpt
 ---@field notify? MessageNotifyOpt
 ---@field subscribers? BusSubscriberDecl[]
@@ -49,6 +51,10 @@ function M.bootstrap(opts)
     Bus.init(opts.bus)
 
     local sink = build_sink()
+
+    if opts.history == nil or opts.history.enabled ~= false then
+        require('abel.util.ui.message.history').setup(opts.history)
+    end
 
     if opts.notify == nil or opts.notify.enabled ~= false then
         require('abel.util.ui.message.notify').setup(sink, opts.notify)
@@ -86,6 +92,14 @@ function M.start(opts)
         bus_backend = bus_backend or default_id
     end
 
+    if opts.history == nil or opts.history.enabled ~= false then
+        local recorder = require 'abel.util.ui.message.history'
+        table.insert(subscribers, recorder.subscriber('abel-message-history', {
+            exact = { 'notify', 'msg.clear' },
+            prefix = { 'msg.show.' },
+        }, vim.log.levels.TRACE))
+    end
+
     assert(type(bus_backend) == 'string' and bus_backend ~= '', 'message.start(opts): bus_backend is required when no default renderer is enabled')
 
     Bus.start {
@@ -101,6 +115,7 @@ function M.setup(opts)
     opts = opts or {}
     M.bootstrap {
         bus = opts.bus,
+        history = opts.history,
         nvim = opts.nvim,
         notify = opts.notify,
     }

@@ -111,6 +111,9 @@ message.setup {
     bus = {
         cache_max = 2048,
     },
+    history = {
+        max_items = 500,
+    },
     nvim = {
         enabled = false,
     },

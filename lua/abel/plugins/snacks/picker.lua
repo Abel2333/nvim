@@ -48,12 +48,11 @@ return {
             desc = 'Command History',
         },
         {
-
             '<leader>fh',
             function()
-                Snacks.picker.notifications()
+                require('abel.util.ui.message.snacks').open()
             end,
-            desc = 'Notification History',
+            desc = 'Message History',
         },
         {
             '<leader>fe',

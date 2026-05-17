@@ -55,6 +55,10 @@ function M.on_message(msg, opts)
         return
     end
 
+    if msg.meta and msg.meta.channel and msg.meta.channel ~= 'message' then
+        return
+    end
+
     local title = msg.source
     if type(msg.meta) == 'table' and type(msg.meta.title) == 'string' and msg.meta.title ~= '' then
         title = msg.meta.title
