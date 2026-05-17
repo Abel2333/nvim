@@ -413,7 +413,7 @@ local function close_state(state, skip_relayout)
         list_remove(order, state.id)
     end
     if not skip_relayout and order then
-        -- relayout is handled by dismiss() or notify_like()
+        -- relayout is handled by dismiss() or show()
     end
 end
 
@@ -605,7 +605,7 @@ end
 ---@param opts AbelNotifyOpts|nil
 ---@param render AbelNotifyRender|nil
 ---@return AbelNotifyState
-local function notify_like(msg, opts, render)
+local function show(msg, opts, render)
     opts = opts or {}
 
     local id = opts.id or next_id()
@@ -726,11 +726,11 @@ local function dismiss(id)
 end
 
 ---@class AbelNotifyModule
----@field notify_like fun(msg: string, opts: AbelNotifyOpts|nil, render: AbelNotifyRender|nil): AbelNotifyState
+---@field show fun(msg: string, opts: AbelNotifyOpts|nil, render: AbelNotifyRender|nil): AbelNotifyState
 ---@field dismiss fun(id: string)
 
 ---@type AbelNotifyModule
 return {
-    notify_like = notify_like,
+    show = show,
     dismiss = dismiss,
 }

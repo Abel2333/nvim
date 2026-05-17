@@ -32,6 +32,66 @@ live renderer   history store
  toast window    Snacks picker
 ```
 
+## Startup Sequence
+
+Current entry point:
+- `lua/abel/config/autocmds.lua`
+
+It calls:
+
+```lua
+message.setup {
+    bus = {
+        cache_max = 2048,
+    },
+    history = {
+        max_items = 500,
+    },
+    nvim = {
+        enabled = false,
+    },
+    minimal_renderer = true,
+}
+```
+
+This starts the message system in two phases.
+
+### Phase 1: bootstrap
+
+Implemented in `lua/abel/util/ui/message/init.lua`.
+
+This phase installs inputs and storage:
+- `Bus.init(...)`
+- `history.setup(...)`
+- `message.notify.setup(...)`
+- `message.nvim.setup(...)` when enabled
+
+In the current config, `nvim.enabled = false`, so the active input path is mainly `vim.notify`.
+
+### Phase 2: start
+
+Also implemented in `lua/abel/util/ui/message/init.lua`.
+
+This phase registers bus subscribers and starts dispatching:
+- live renderer: `lua/abel/util/ui/message/render.lua`
+- history recorder: `lua/abel/util/ui/message/history.lua`
+
+After `Bus.start(...)`, queued messages are flushed and the bus becomes live.
+
+### Runtime flow
+
+The main runtime path today is:
+
+```text
+vim.notify
+  -> message.notify
+  -> bus.emit
+  -> live renderer -> toast.show(...)
+  -> history recorder -> history.record(...)
+```
+
+If `message.nvim` is enabled later, `msg_show` and `msg_clear` can also enter the same bus pipeline.
+
 ## Modules
 
 ### `lua/abel/util/tool/bus.lua`
@@ -102,3 +162,5 @@ Inside the picker:
 ## Note on progress messages
 
 `lua/abel/util/lsp/lsp-progress.lua` still uses the toast UI for live progress display, but those messages are not written into the message history.
+
+The toast API entry point is `show()`.

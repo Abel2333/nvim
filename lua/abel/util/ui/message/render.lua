@@ -83,7 +83,7 @@ function M.on_message(msg, opts)
         timeout = timeout or DEFAULT_TIMEOUT
     end
 
-    toast.notify_like(render_text(msg), {
+    toast.show(render_text(msg), {
         id = notif_id,
         title = title,
         timeout = timeout,

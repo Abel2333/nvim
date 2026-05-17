@@ -68,7 +68,7 @@ local function on_progress(ev)
         return
     end
 
-    toast.notify_like(table.concat(msg, '\n'), {
+    toast.show(table.concat(msg, '\n'), {
         id = 'lsp_progress',
         title = client.name,
         icon = get_icon(client.id),
