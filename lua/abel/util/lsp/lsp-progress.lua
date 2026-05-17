@@ -72,9 +72,8 @@ local function on_progress(ev)
         id = 'lsp_progress',
         title = client.name,
         icon = get_icon(client.id),
+        channel = 'progress',
         relayout = true,
-        row = -1,
-        col = -1,
         size = {
             width = { min = 30, max = 0.75 },
             height = { min = 1, max = 0.6 },

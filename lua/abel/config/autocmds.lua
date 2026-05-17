@@ -111,6 +111,9 @@ message.setup {
     bus = {
         cache_max = 2048,
     },
+    nvim = {
+        enabled = false,
+    },
     minimal_renderer = true,
 }
 

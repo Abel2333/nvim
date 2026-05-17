@@ -81,10 +81,9 @@ function M.on_message(msg, opts)
         title = title,
         timeout = timeout,
         level = level_to_toast(msg.level),
+        channel = 'message',
         more_format = opts.more_format or ' +%d more ',
         relayout = msg.mode == 'replace' or msg.mode == 'append',
-        row = -1,
-        col = -1,
         size = {
             width = { min = 30, max = 0.75 },
             height = { min = 1, max = 0.6 },

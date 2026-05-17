@@ -41,6 +41,7 @@ return {
         },
         ---@class snacks.notifier.Config
         notifier = {
+            enabled = false,
             timeout = 3000,
             width = { min = 30, max = 0.75 },
             height = { min = 1, max = 0.6 },
