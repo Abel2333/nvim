@@ -57,6 +57,81 @@ vim.keymap.set('v', 'K', function()
     move_block 'up'
 end, { desc = 'Move the selected text up' })
 
-vim.keymap.set('n', '<leader>tc', function()
-    print(misc_util.has_plugin 'kitty-scrollback')
-end, { desc = 'Test Color' })
+local test_bus = require 'abel.util.tool.bus'
+local test_bus_count = 0
+local test_replace_key = test_bus.compose_key('debug.replace', 'toast')
+
+local function emit_debug(msg, opts)
+    opts = opts or {}
+    test_bus.emit(vim.tbl_extend('force', {
+        tag = 'notify',
+        level = vim.log.levels.DEBUG,
+        source = 'user',
+        text = msg,
+        content = msg,
+        meta = {
+            title = 'Bus Debug',
+        },
+    }, opts))
+end
+
+local function emit_replace_test(seq)
+    for i = 1, 3 do
+        vim.defer_fn(function()
+            local msg = string.format('Replace test #%d.%d', seq, i)
+            emit_debug(msg, {
+                key = test_replace_key,
+                meta = {
+                    title = 'Bus Replace',
+                    seq = seq,
+                    part = i,
+                },
+            })
+        end, (i - 1) * 180)
+    end
+end
+
+local function emit_edge_test(seq)
+    emit_debug(string.format('Edge test #%d: empty text', seq), {
+        text = '',
+        content = '',
+        meta = {
+            title = 'Empty Text',
+            seq = seq,
+        },
+    })
+
+    emit_debug(string.format('Edge test #%d: multiline\nline 2\nline 3', seq), {
+        meta = {
+            title = 'Multiline',
+            seq = seq,
+        },
+    })
+
+    emit_debug(string.rep('Long line ', 12), {
+        meta = {
+            title = 'Long Line',
+            seq = seq,
+        },
+    })
+end
+
+vim.keymap.set('n', '<leader>c', function()
+    test_bus_count = test_bus_count + 1
+    emit_debug(string.format('Debug message #%d from <leader>c', test_bus_count), {
+        meta = {
+            title = 'Bus Debug',
+            count = test_bus_count,
+        },
+    })
+
+    -- Every third press: test same-id updates.
+    if test_bus_count % 3 == 0 then
+        emit_replace_test(test_bus_count)
+    end
+
+    -- Every sixth press: test edge cases.
+    if test_bus_count % 6 == 0 then
+        emit_edge_test(test_bus_count)
+    end
+end, { desc = 'Test Bus Message' })

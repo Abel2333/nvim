@@ -5,6 +5,7 @@
 local misc_uitl = require 'abel.util.core.misc'
 local auto_pair = require 'abel.util.editor.autopair'
 local lsp_progress = require 'abel.util.lsp.lsp-progress'
+local message = require 'abel.util.ui.message'
 
 local number_group = vim.api.nvim_create_augroup('toggle-line-number', { clear = true })
 local indent_group = vim.api.nvim_create_augroup('indent-adjust', { clear = true })
@@ -105,6 +106,19 @@ vim.api.nvim_create_autocmd({
         end
     end,
 })
+
+message.setup {
+    bus = {
+        cache_max = 2048,
+    },
+    history = {
+        max_items = 500,
+    },
+    nvim = {
+        enabled = false,
+    },
+    minimal_renderer = true,
+}
 
 auto_pair.apply()
 lsp_progress.apply()
