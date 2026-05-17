@@ -17,6 +17,7 @@ This document summarizes the main modules and where to find them.
 ## UI and UX
 
 - Statusline, bufferline, notifications, and UI polish: `lua/abel/plugins/ui/`
+- Message system (bus, toast, history, picker): `lua/abel/util/ui/message/`
 - Snacks collection and related helpers: `lua/abel/plugins/snacks/`
 - Dashboard and visuals: `lua/abel/plugins/ui/alpha.lua`, `lua/abel/config/custom.lua`
 

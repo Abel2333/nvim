@@ -9,7 +9,7 @@ Recommended terminal: [Kitty](https://github.com/kovidgoyal/kitty)
 
 ## Preview
 
-![Dashboard](./doc/neovim_dashboard.png)
+![Dashboard](./docs/neovim_dashboard.png)
 
 ## Highlights
 
@@ -55,10 +55,10 @@ Optional (install as needed):
 
 ## Docs
 
-- Modules and layout: `doc/modules.md`
-- Language support: `doc/languages.md`
-- Q&A and implementation notes: `doc/faq.md`
-- Toast API notes: `doc/abel-toast.md`
+- Modules and layout: `docs/modules.md`
+- Language support: `docs/languages.md`
+- Q&A and implementation notes: `docs/faq.md`
+- Message system: `docs/message-system.md`
 
 ## Structure
 
@@ -116,7 +116,7 @@ nvim/
 ├─ after/
 │  └─ ftplugin/
 ├─ lsp/
-├─ doc/
+├─ docs/
 ├─ scripts/
 └─ extend-snippets/
 ```
@@ -126,7 +126,7 @@ nvim/
 - `lua/abel/plugins/`: plugin specs grouped by area.
 - `after/`: filetype and after-load tweaks.
 - `lsp/`: per-server LSP configs.
-- `doc/`: docs and assets (screenshots).
+- `docs/`: docs and assets (screenshots).
 - `scripts/`: helper scripts.
 - `extend-snippets/`: custom snippets.
 

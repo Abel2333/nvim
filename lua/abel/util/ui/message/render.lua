@@ -1,5 +1,6 @@
 --------------------------------------------------------------------------------
--- Minimal message renderer backed by Abel toast
+-- Live renderer for the message channel.
+-- It converts bus messages into toast windows, but does not store history.
 --------------------------------------------------------------------------------
 local toast = require 'abel.util.ui.toast'
 local M = {}
@@ -46,6 +47,7 @@ end
 function M.on_message(msg, opts)
     opts = opts or {}
 
+    -- msg.clear means the UI should remove existing live toasts.
     if msg.mode == 'clear' then
         if msg.source == 'nvim.ui' then
             toast.dismiss 'msg:area'
@@ -55,6 +57,7 @@ function M.on_message(msg, opts)
         return
     end
 
+    -- Only message-channel traffic is rendered here; process/progress use other UI.
     if msg.meta and msg.meta.channel and msg.meta.channel ~= 'message' then
         return
     end

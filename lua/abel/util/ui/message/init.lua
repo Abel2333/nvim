@@ -1,5 +1,7 @@
 --------------------------------------------------------------------------------
--- Message subsystem coordinator
+-- Message subsystem coordinator.
+-- Bootstrap installs adapters and history storage.
+-- Start wires the live renderer and optional history recorder into the bus.
 --------------------------------------------------------------------------------
 local Bus = require 'abel.util.tool.bus'
 local M = {}
@@ -53,6 +55,7 @@ function M.bootstrap(opts)
     local sink = build_sink()
 
     if opts.history == nil or opts.history.enabled ~= false then
+        -- History is independent from the UI renderer.
         require('abel.util.ui.message.history').setup(opts.history)
     end
 
@@ -83,6 +86,7 @@ function M.start(opts)
     local bus_backend = opts.bus_backend
 
     if opts.minimal_renderer ~= false then
+        -- Default renderer: live toast windows for message traffic.
         local render = require 'abel.util.ui.message.render'
         local default_id = 'abel-message-render'
         table.insert(subscribers, render.subscriber(default_id, {
@@ -93,6 +97,7 @@ function M.start(opts)
     end
 
     if opts.history == nil or opts.history.enabled ~= false then
+        -- Recorder: same message stream, but only to persist history entries.
         local recorder = require 'abel.util.ui.message.history'
         table.insert(subscribers, recorder.subscriber('abel-message-history', {
             exact = { 'notify', 'msg.clear' },

@@ -1,5 +1,6 @@
 --------------------------------------------------------------------------------
--- Snacks picker view for message history
+-- Snacks picker view for message history.
+-- This is view-only: it reads from the history store and builds UI items.
 --------------------------------------------------------------------------------
 local history = require 'abel.util.ui.message.history'
 local M = {}
@@ -58,6 +59,7 @@ end
 
 ---@param entry MessageHistoryEntry
 ---@return string
+-- Preview uses markdown so the full payload is easy to read and copy.
 local function preview_text(entry)
     local lines = {
         '# Message',
@@ -119,6 +121,7 @@ end
 
 ---@param picker snacks.Picker
 ---@param item table|nil
+-- Copy only the message body to the system clipboard.
 local function copy_text(picker, item)
     local entry = get_entry(item)
     if not entry then
@@ -130,6 +133,7 @@ end
 
 ---@param picker snacks.Picker
 ---@param item table|nil
+-- Copy the formatted detail view, including metadata.
 local function copy_full(picker, item)
     local entry = get_entry(item)
     if not entry then
@@ -141,6 +145,7 @@ end
 
 ---@param picker snacks.Picker
 ---@param item table|nil
+-- Open the selected entry in a scratch split for longer inspection.
 local function open_detail(picker, item)
     local entry = get_entry(item)
     if not entry then

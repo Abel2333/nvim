@@ -21,6 +21,8 @@ local M = {}
 ---@field content any
 ---@field meta table|nil
 
+-- Bounded in-memory history store.
+-- This module only records message-channel events and does not depend on Snacks.
 local State = {
     max_items = 300,
     items = {},
@@ -42,6 +44,7 @@ end
 
 ---@param msg Message
 ---@return boolean
+-- Only keep UI messages. Process/progress traffic stays out of history.
 local function should_record(msg)
     if type(msg) ~= 'table' then
         return false
@@ -84,7 +87,7 @@ local function build_entry(msg)
         source = msg.source or 'user',
         source_id = msg.source_id,
         timestamp = msg.timestamp or vim.uv.now(),
-        created_at = os.time(),
+        created_at = os.time(), -- wall-clock time for picker display
         channel = (msg.meta and msg.meta.channel) or 'message',
         text = text,
         content = safe_copy(msg.content),
@@ -102,6 +105,7 @@ end
 
 ---@param msg Message
 ---@return boolean
+-- Append new entries and drop the oldest ones when max_items is exceeded.
 function M.record(msg)
     local entry = build_entry(msg)
     if not entry then
@@ -145,6 +149,7 @@ end
 ---@param interested BusSubscriberInterestedTagDecl
 ---@param min_level integer|nil
 ---@return BusSubscriberDecl
+-- Subscriber hook used by the bus to tap the same stream as the renderer.
 function M.subscriber(id, interested, min_level)
     return {
         id = id,

@@ -88,6 +88,7 @@ local Opt = vim.deepcopy(BUS_OPT_DEFAULT)
 local Subscribers = {}
 
 ---@type BusStat
+-- Queue messages until the bus is ready, then dispatch them in order.
 local Stat = {
     IsInitialized = false,
     Ready = false,
@@ -124,6 +125,7 @@ end
 
 ---@param opts BusEmitOpt
 ---@return Message
+-- Normalize emit options into a concrete bus message.
 local function build_msg(opts)
     assert(type(opts) == 'table', 'Bus.emit(opts): opts must be a table')
     assert(type(opts.tag) == 'string' and opts.tag ~= '', 'Bus.emit(opts): opts.tag must be a non-empty string')
@@ -172,6 +174,7 @@ end
 
 ---@param msg Message
 ---@return boolean
+-- Keep the queue bounded so early bursts do not grow without limit.
 local function enqueue_or_drop(msg)
     if #Stat.Queue < InitOpt.cache_max then
         table.insert(Stat.Queue, msg)
