@@ -1,5 +1,6 @@
 --------------------------------------------------------------------------------
 -- Message Bus -- Tag based message router
+-- Adapted from aurora0x27/nvim-config.
 --------------------------------------------------------------------------------
 local M = {}
 
@@ -89,7 +90,7 @@ local Subscribers = {}
 
 ---@type BusStat
 -- Queue messages until the bus is ready, then dispatch them in order.
-local Stat = {
+local State = {
     IsInitialized = false,
     Ready = false,
     Queue = {},
@@ -176,25 +177,25 @@ end
 ---@return boolean
 -- Keep the queue bounded so early bursts do not grow without limit.
 local function enqueue_or_drop(msg)
-    if #Stat.Queue < InitOpt.cache_max then
-        table.insert(Stat.Queue, msg)
+    if #State.Queue < InitOpt.cache_max then
+        table.insert(State.Queue, msg)
         return true
     end
-    Stat.Dropped = Stat.Dropped + 1
+    State.Dropped = State.Dropped + 1
     return false
 end
 
 local function clear_queue()
-    Stat.Queue = {}
-    Stat.queue_end = 1
+    State.Queue = {}
+    State.queue_end = 1
 end
 
 local function maybe_report_dropped()
-    if Stat.Dropped <= 0 then
+    if State.Dropped <= 0 then
         return
     end
-    local dropped = Stat.Dropped
-    Stat.Dropped = 0
+    local dropped = State.Dropped
+    State.Dropped = 0
     local backend = Opt.bus_backend and Subscribers[Opt.bus_backend]
     if not backend or type(backend.handler) ~= 'function' then
         return
@@ -266,12 +267,12 @@ end
 
 ---@param msg Message
 local function bus_dispatch(msg)
-    if Stat.Busy then
+    if State.Busy then
         enqueue_or_drop(msg)
         return
     end
 
-    Stat.Busy = true
+    State.Busy = true
 
     for _, backend in pairs(Subscribers) do
         if msg.level >= (backend.min_level or vim.log.levels.TRACE) and matches(backend, msg.tag) then
@@ -286,7 +287,7 @@ local function bus_dispatch(msg)
         end
     end
 
-    Stat.Busy = false
+    State.Busy = false
 end
 
 local FLUSH_MAX_DEPTH = 4
@@ -328,58 +329,58 @@ function M.unsubscribe(id)
 end
 
 function M.flush_queue()
-    if not Stat.Ready or Stat.Busy then
+    if not State.Ready or State.Busy then
         _bus_log(
-            string.format('[Queue Flusher] rescheduled (ready=%s, busy=%s, queued=%d)', tostring(Stat.Ready), tostring(Stat.Busy), #Stat.Queue),
+            string.format('[Queue Flusher] rescheduled (ready=%s, busy=%s, queued=%d)', tostring(State.Ready), tostring(State.Busy), #State.Queue),
             vim.log.levels.DEBUG
         )
         vim.schedule(M.flush_queue)
         return
     end
 
-    if Stat.flush_depth >= FLUSH_MAX_DEPTH then
+    if State.flush_depth >= FLUSH_MAX_DEPTH then
         _bus_log(
-            string.format('[Queue Flusher] flush_queue exceeded max depth (%d), queue dropped (%d msgs)', FLUSH_MAX_DEPTH, #Stat.Queue),
+            string.format('[Queue Flusher] flush_queue exceeded max depth (%d), queue dropped (%d msgs)', FLUSH_MAX_DEPTH, #State.Queue),
             vim.log.levels.ERROR
         )
         clear_queue()
         return
     end
 
-    local batch_start = Stat.queue_end
-    local batch_end = #Stat.Queue
+    local batch_start = State.queue_end
+    local batch_end = #State.Queue
     if batch_start > batch_end then
         _bus_log('[Queue Flusher] queue already drained', vim.log.levels.DEBUG)
         clear_queue()
         return
     end
 
-    Stat.flush_depth = Stat.flush_depth + 1
+    State.flush_depth = State.flush_depth + 1
     maybe_report_dropped()
     _bus_log(
-        string.format('[Queue Flusher] flushing batch start=%d end=%d depth=%d total=%d', batch_start, batch_end, Stat.flush_depth, #Stat.Queue),
+        string.format('[Queue Flusher] flushing batch start=%d end=%d depth=%d total=%d', batch_start, batch_end, State.flush_depth, #State.Queue),
         vim.log.levels.DEBUG
     )
 
     for i = batch_start, batch_end do
-        local msg = Stat.Queue[i]
-        Stat.queue_end = i + 1
+        local msg = State.Queue[i]
+        State.queue_end = i + 1
         local ok, err = pcall(bus_dispatch, msg)
         if not ok then
-            Stat.Busy = false
+            State.Busy = false
             _bus_log('[Queue Flusher] dispatcher panic for `' .. err .. '`', vim.log.levels.ERROR)
         end
     end
 
-    if #Stat.Queue > batch_end then
-        _bus_log(string.format('[Queue Flusher] batch complete, %d new msg(s) queued during flush', #Stat.Queue - batch_end), vim.log.levels.DEBUG)
+    if #State.Queue > batch_end then
+        _bus_log(string.format('[Queue Flusher] batch complete, %d new msg(s) queued during flush', #State.Queue - batch_end), vim.log.levels.DEBUG)
         M.flush_queue()
     else
         _bus_log(string.format('[Queue Flusher] batch complete, queue drained (%d msg(s))', batch_end - batch_start + 1), vim.log.levels.DEBUG)
         clear_queue()
     end
 
-    Stat.flush_depth = Stat.flush_depth - 1
+    State.flush_depth = State.flush_depth - 1
 end
 
 --- Emit a message to the bus.
@@ -394,18 +395,18 @@ function M.emit(opts)
     local msg = build_msg(opts)
     local event_id = msg.event_id
 
-    if not Stat.Ready or Stat.Busy then
+    if not State.Ready or State.Busy then
         enqueue_or_drop(msg)
         return event_id
     end
 
     local ok, err = pcall(bus_dispatch, msg)
     if not ok then
-        Stat.Busy = false
+        State.Busy = false
         _bus_log('[Emitter] dispatcher panic for `' .. err .. '`', vim.log.levels.ERROR)
     end
 
-    if Stat.Ready and #Stat.Queue > 0 then
+    if State.Ready and #State.Queue > 0 then
         vim.schedule(M.flush_queue)
     end
 
@@ -415,11 +416,11 @@ end
 --- Stage 2: register configured subscribers and start dispatching queued messages.
 ---@param opts BusOpt|nil
 function M.start(opts)
-    if not Stat.IsInitialized then
+    if not State.IsInitialized then
         M.init()
     end
 
-    if Stat.Ready then
+    if State.Ready then
         _bus_log('Should not start bus more than once!', vim.log.levels.WARN)
         return
     end
@@ -433,18 +434,18 @@ function M.start(opts)
 
     assert(type(Opt.bus_backend) == 'string' and Subscribers[Opt.bus_backend], 'Bus.start(opts): opts.bus_backend must name an existing subscriber')
 
-    Stat.Ready = true
+    State.Ready = true
     M.flush_queue()
 end
 
 --- Stage 1: initialize bus and allow messages to be queued before start().
 ---@param opts BusInitOpt|nil
 function M.init(opts)
-    if Stat.IsInitialized then
+    if State.IsInitialized then
         return
     end
     InitOpt = vim.tbl_extend('force', InitOpt, opts or {})
-    Stat.IsInitialized = true
+    State.IsInitialized = true
 end
 
 return M

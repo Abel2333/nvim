@@ -1,4 +1,9 @@
 local uv = vim.uv or vim.loop
+
+--------------------------------------------------------------------------------
+-- Toast window implementation
+-- Original implementation by Abel.
+--------------------------------------------------------------------------------
 local NS = vim.api.nvim_create_namespace 'abel_toast_ns'
 
 local ACTIVE = {}

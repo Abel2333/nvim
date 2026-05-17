@@ -5,6 +5,12 @@
 Personal Neovim setup focused on Python and Rust. C/C++ (with CMake) is
 supported but secondary. Used for coding, notes, and general editing.
 
+## Credits
+
+- `bus` and the message adapter are adapted from
+  [`aurora0x27/nvim-config`](https://codeberg.org/aurora0x27/nvim-config.git).
+- `toast` is an original implementation.
+
 Recommended terminal: [Kitty](https://github.com/kovidgoyal/kitty)
 
 ## Preview

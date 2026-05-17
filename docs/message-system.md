@@ -11,6 +11,12 @@ The message system has two separate jobs:
 
 The important rule is that these two jobs are separate. Rendering does not store history, and history does not depend on Snacks.
 
+## Credits
+
+- `bus` and the message adapter are adapted from
+  [`aurora0x27/nvim-config`](https://codeberg.org/aurora0x27/nvim-config.git).
+- `toast` is an original implementation.
+
 ## Data Flow
 
 ```text
