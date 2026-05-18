@@ -40,7 +40,7 @@ Notes:
 - Entry points: `lua/abel/config/options.lua`, `scripts/wsl-paste.sh`
 - Copy: `win32yank.exe -i`
 - Paste: `scripts/wsl-paste.sh`
-- Script behavior: `wl-paste | tr -d '\r'`
+- Script behavior: `wl-paste --no-newline | tr -d '\r'`
 
 Notes:
 - `clip.exe` is intentionally not used (commented out in the config).
@@ -69,7 +69,7 @@ A: When `SSH_TTY` is present and TMUX is not, OSC52 is used via
 ### Q: How does clipboard work in WSL?
 
 A: Copy uses `win32yank.exe -i`; paste goes through `scripts/wsl-paste.sh`
-which calls `wl-paste` and strips CR. See: “Clipboard in WSL” above.
+which calls `wl-paste --no-newline` and strips CR. See: “Clipboard in WSL” above.
 
 ### Q: How does clipboard work in tmux?
 
